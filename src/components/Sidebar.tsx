@@ -2,7 +2,20 @@ import React from 'react';
 import { LayoutDashboard, Users, Home, Calendar, FileText, LogOut, Building2 } from 'lucide-react';
 import '../styles/Sidebar.css';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+    onNavigate?: (page: string) => void;
+    activePage?: string;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' }) => {
+
+    const handleNavClick = (page: string, e: React.MouseEvent) => {
+        e.preventDefault();
+        if (onNavigate) {
+            onNavigate(page);
+        }
+    };
+
     return (
         <aside className="sidebar">
             <div className="sidebar-header">
@@ -13,11 +26,11 @@ const Sidebar: React.FC = () => {
             </div>
 
             <nav className="sidebar-nav">
-                <a href="#" className="nav-item active">
+                <a href="#" className={`nav-item ${activePage === 'dashboard' ? 'active' : ''}`} onClick={(e) => handleNavClick('dashboard', e)}>
                     <LayoutDashboard size={20} />
                     <span>Dashboard</span>
                 </a>
-                <a href="#" className="nav-item">
+                <a href="#" className={`nav-item ${activePage === 'leads' ? 'active' : ''}`} onClick={(e) => handleNavClick('leads', e)}>
                     <Users size={20} />
                     <span>Leads Pipeline</span>
                 </a>
