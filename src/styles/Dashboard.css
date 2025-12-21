@@ -8,6 +8,13 @@
     /* Offset for Sidebar */
 }
 
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
 /* Header */
 .dashboard-header {
     background-color: var(--color-bg-card);
