@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Users, Home, Calendar, FileText, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Users, Home, Calendar, FileText, LogOut, Menu, X, Database } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
@@ -57,9 +57,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
                         <LayoutDashboard size={20} className={activePage === 'dashboard' ? 'text-primary' : ''} />
                         <span className="text-sm font-medium">Dashboard</span>
                     </button>
+
+                    {/* New Data Menu */}
+                    <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                        <Database size={20} />
+                        <span className="text-sm font-medium">Data</span>
+                    </a>
+
                     <button className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activePage === 'leads' ? 'bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`} onClick={(e) => handleNavClick('leads', e)}>
                         <Users size={20} className={activePage === 'leads' ? 'text-primary' : ''} />
-                        <span className="text-sm font-medium">Leads Pipeline</span>
+                        <span className="text-sm font-medium">Leads</span>
                     </button>
                     <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
                         <Home size={20} />
