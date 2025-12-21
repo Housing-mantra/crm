@@ -17,7 +17,7 @@ function App() {
     };
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--color-bg-main)' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', width: '100%', backgroundColor: 'var(--color-bg-main)' }}>
             <Sidebar onNavigate={setCurrentPage} activePage={currentPage} />
             {renderPage()}
         </div>
