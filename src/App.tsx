@@ -31,21 +31,19 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 
 function App() {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route
-                    path="/dashboard"
-                    element={
-                        <PrivateRoute>
-                            <MainApp />
-                        </PrivateRoute>
-                    }
-                />
-                {/* Redirect any unknown route to home (login) */}
-                <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-        </Router>
+        <Routes>
+            <Route path="/" element={<Login />} />
+            <Route
+                path="/dashboard"
+                element={
+                    <PrivateRoute>
+                        <MainApp />
+                    </PrivateRoute>
+                }
+            />
+            {/* Redirect any unknown route to home (login) */}
+            <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
     );
 }
 
