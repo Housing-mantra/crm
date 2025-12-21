@@ -146,29 +146,37 @@ const Dashboard: React.FC = () => {
                     </div>
 
                     {/* New Leads */}
-                    <div className="lead-item">
-                        <div className="lead-avatar-initials purple">AL</div>
-                        <div className="lead-info">
-                            <p className="lead-name">Anna Lee</p>
-                            <p className="lead-sub">Villa • Budget $1.2M</p>
+                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+                        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-white">
+                            <div className="flex items-center gap-2">
+                                <PersonStanding className="text-slate-400" size={18} />
+                                <h3 className="font-bold text-slate-800">New Leads</h3>
+                            </div>
+                            <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-xs font-medium">Updated</span>
                         </div>
-                        <span className="pill pill-blue">New</span>
-                    </div>
-                    <div className="lead-item">
-                        <div className="lead-avatar-initials teal">RJ</div>
-                        <div className="lead-info">
-                            <p className="lead-name">Rajesh Jain</p>
-                            <p className="lead-sub">Plot • Budget $200k</p>
+                        <div className="divide-y divide-slate-100">
+                            {['Anna Lee', 'Rajesh Jain'].map((name, i) => (
+                                <div key={i} className="p-4 hover:bg-slate-50 transition-colors flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className={`h-10 w-10 rounded-full flex items-center justify-center text-sm font-bold text-white ${i === 0 ? 'bg-purple-500' : 'bg-teal-500'}`}>
+                                            {name.split(' ').map(n => n[0]).join('')}
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-bold text-slate-800">{name}</p>
+                                            <p className="text-xs text-slate-500">{i === 0 ? 'Villa • Budget $1.2M' : 'Plot • Budget $200k'}</p>
+                                        </div>
+                                    </div>
+                                    <span className="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-full border border-blue-100">New</span>
+                                </div>
+                            ))}
                         </div>
-                        <span className="pill pill-blue">New</span>
+                        <div className="p-3 border-t border-slate-100 bg-slate-50 text-center mt-auto">
+                            <button className="text-primary text-sm font-medium hover:text-blue-700 transition-colors w-full">View all 12 new leads</button>
+                        </div>
                     </div>
                 </div>
-                <button className="btn-full">View all 12 new leads</button>
             </div>
         </div>
-                </div >
-            </div >
-        </div >
     );
 };
 
