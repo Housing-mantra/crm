@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
                     <div className="logo-container">
                         <Building2 className="logo-icon" size={24} />
                     </div>
-                    <h1 className="app-title">Real Estate CRM</h1>
+                    <h1 className="app-title">CRM</h1>
                 </div>
 
                 <nav className="sidebar-nav">
