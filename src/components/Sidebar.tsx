@@ -39,10 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
 
             <aside className={`sidebar ${isMobileOpen ? 'mobile-open' : ''}`}>
                 <div className="sidebar-header">
-                    <div className="logo-container">
-                        <Building2 className="logo-icon" size={24} />
-                    </div>
-                    <h1 className="app-title">CRM</h1>
+                    <img src="/logo.png" alt="Housing Mantra" className="sidebar-logo" />
                 </div>
 
                 <nav className="sidebar-nav">
