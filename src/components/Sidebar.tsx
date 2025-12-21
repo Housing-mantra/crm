@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
                     <div className="h-8 w-8 rounded bg-primary flex items-center justify-center text-white shadow-md shadow-blue-200">
                         <Home size={20} />
                     </div>
-                    <h1 className="text-slate-800 text-lg font-bold tracking-tight">Real Estate CRM</h1>
+                    <h1 className="text-slate-800 text-lg font-bold tracking-tight">Estate CRM</h1>
                 </div>
 
                 <nav className="flex-1 px-4 flex flex-col gap-2 overflow-y-auto">

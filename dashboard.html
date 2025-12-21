@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Real Estate CRM Dashboard</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Estate CRM Dashboard</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
         tailwind.config = {
             theme: {
                 extend: {
@@ -27,344 +32,413 @@
             },
         }
     </script>
-<style>
+    <style>
         .custom-scrollbar::-webkit-scrollbar {
             height: 8px;
             width: 8px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background-color: #cbd5e1;
             border-radius: 4px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background-color: #94a3b8;
         }
     </style>
 </head>
+
 <body class="bg-background-light font-display h-screen flex overflow-hidden text-slate-900">
-<aside class="w-64 bg-white border-r border-slate-200 flex-col hidden md:flex h-full flex-shrink-0 z-20">
-<div class="p-6 flex items-center gap-3">
-<div class="h-8 w-8 rounded bg-primary flex items-center justify-center text-white shadow-md shadow-blue-200">
-<span class="material-symbols-outlined text-xl">apartment</span>
-</div>
-<h1 class="text-slate-800 text-lg font-bold tracking-tight">Real Estate CRM</h1>
-</div>
-<nav class="flex-1 px-4 flex flex-col gap-2 overflow-y-auto">
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100" href="#">
-<span class="material-symbols-outlined fill-1">dashboard</span>
-<span class="text-sm font-medium">Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
-<span class="material-symbols-outlined">group</span>
-<span class="text-sm font-medium">Leads Pipeline</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
-<span class="material-symbols-outlined">home</span>
-<span class="text-sm font-medium">Properties</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
-<span class="material-symbols-outlined">calendar_today</span>
-<span class="text-sm font-medium">Calendar</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
-<span class="material-symbols-outlined">description</span>
-<span class="text-sm font-medium">Reports</span>
-</a>
-</nav>
-<div class="p-4 border-t border-slate-100">
-<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition-colors">
-<div class="h-10 w-10 rounded-full bg-cover bg-center border border-slate-200" data-alt="User avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDu_7q6YFd7a1Phk0IWcojbXEOyyypJhnEFuvR0q6K9FBldFRGqUeZkH5yDxPpW-GlkmFQ0kgcOUgMwk3jcqY23Twosnb5eKlMuSxbjWkBdT2Zz4SRvREqHeAOFcVzvY-hTERwdBhr374pP_dmK90iRjEqr4m84gXIydSHwN_Erc4ZYmXf6A_JYlVNWFs4dwmUDpqFWQTJcr-FJ75xHh9HSbFDjTcf1wsYktmvL6dbQ0r-leYKsSO_DS8wH8pMK9in9algqGs9mXqvf')"></div>
-<div class="flex flex-col overflow-hidden">
-<p class="text-slate-800 text-sm font-medium truncate">Sarah Jenkins</p>
-<p class="text-slate-500 text-xs truncate">Presales Agent</p>
-</div>
-</div>
-<button class="mt-2 w-full flex items-center justify-center gap-2 text-slate-400 hover:text-slate-700 text-xs py-2 transition-colors">
-<span class="material-symbols-outlined text-base">logout</span>
-            Log Out
-        </button>
-</div>
-</aside>
-<main class="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light">
-<header class="flex-shrink-0 z-10 bg-white border-b border-slate-200">
-<div class="flex flex-wrap items-center justify-between gap-4 p-6">
-<div class="flex flex-col gap-1">
-<h2 class="text-2xl md:text-3xl font-black tracking-tight text-slate-900">Dashboard</h2>
-<p class="text-slate-500 text-sm">Overview of your real estate operations and daily tasks.</p>
-</div>
-<div class="flex items-center gap-3">
-<button class="hidden sm:flex h-10 items-center justify-center gap-2 px-4 rounded-lg border border-slate-200 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
-<span class="material-symbols-outlined text-[20px]">download</span>
-                    Export Report
-                </button>
-<button class="flex h-10 items-center justify-center gap-2 px-4 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors">
-<span class="material-symbols-outlined text-[20px]">add</span>
-                    Add New Lead
-                </button>
-</div>
-</div>
-</header>
-<div class="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-6">
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-<div class="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Total Leads</p>
-<div class="flex items-end justify-between">
-<p class="text-2xl font-bold text-slate-900">1,240</p>
-<span class="text-emerald-600 text-xs font-bold bg-emerald-50 px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-emerald-100">
-<span class="material-symbols-outlined text-[14px]">trending_up</span> 5%
-                    </span>
-</div>
-</div>
-<div class="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Qualified Leads</p>
-<div class="flex items-end justify-between">
-<p class="text-2xl font-bold text-slate-900">315</p>
-<span class="text-emerald-600 text-xs font-bold bg-emerald-50 px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-emerald-100">
-<span class="material-symbols-outlined text-[14px]">trending_up</span> 2%
-                    </span>
-</div>
-</div>
-<div class="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Conversion Rate</p>
-<div class="flex items-end justify-between">
-<p class="text-2xl font-bold text-slate-900">12.5%</p>
-<span class="text-emerald-600 text-xs font-bold bg-emerald-50 px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-emerald-100">
-<span class="material-symbols-outlined text-[14px]">trending_up</span> 1.5%
-                    </span>
-</div>
-</div>
-<div class="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-<p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Calls Made Today</p>
-<div class="flex items-end justify-between">
-<p class="text-2xl font-bold text-slate-900">48</p>
-<span class="text-orange-600 text-xs font-bold bg-orange-50 px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-orange-100">
-<span class="material-symbols-outlined text-[14px]">trending_down</span> 10%
-                    </span>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-<div class="lg:col-span-2 flex flex-col gap-4">
-<h3 class="text-slate-800 text-base font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-slate-400">hourglass_top</span>
-                    Lead Response Status
-                </h3>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full">
-<div class="bg-white p-4 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between group cursor-pointer hover:border-blue-300 transition-colors">
-<div class="flex flex-col">
-<p class="text-slate-500 text-xs font-medium">Newly Created</p>
-<p class="text-2xl font-bold text-slate-900 mt-1">12</p>
-</div>
-<div class="h-10 w-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
-<span class="material-symbols-outlined">new_releases</span>
-</div>
-</div>
-<div class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm flex items-center justify-between group cursor-pointer hover:border-indigo-300 transition-colors">
-<div class="flex flex-col">
-<p class="text-slate-500 text-xs font-medium">Created ≤ 1 days</p>
-<p class="text-2xl font-bold text-slate-900 mt-1">8</p>
-</div>
-<div class="h-10 w-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-<span class="material-symbols-outlined">schedule</span>
-</div>
-</div>
-<div class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm flex items-center justify-between group cursor-pointer hover:border-amber-300 transition-colors">
-<div class="flex flex-col">
-<p class="text-slate-500 text-xs font-medium">Created 1-3 days</p>
-<p class="text-2xl font-bold text-slate-900 mt-1">15</p>
-</div>
-<div class="h-10 w-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors">
-<span class="material-symbols-outlined">history</span>
-</div>
-</div>
-<div class="bg-white p-4 rounded-xl border border-rose-100 shadow-sm flex items-center justify-between group cursor-pointer hover:border-rose-300 transition-colors">
-<div class="flex flex-col">
-<p class="text-slate-500 text-xs font-medium">Created &gt; 3 days</p>
-<p class="text-2xl font-bold text-slate-900 mt-1">5</p>
-</div>
-<div class="h-10 w-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-colors">
-<span class="material-symbols-outlined">warning</span>
-</div>
-</div>
-</div>
-</div>
-<div class="flex flex-col gap-4">
-<h3 class="text-slate-800 text-base font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-slate-400">donut_large</span>
-                    Lead Sources
-                </h3>
-<div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center h-full">
-<div class="flex items-center gap-5">
-<div class="relative w-28 h-28 flex-shrink-0 rounded-full" style="background: conic-gradient(#136dec 0% 45%, #6366f1 45% 70%, #f59e0b 70% 85%, #f43f5e 85% 100%);">
-<div class="absolute inset-3 bg-white rounded-full flex items-center justify-center flex-col shadow-inner shadow-slate-100">
-<span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total</span>
-<span class="text-sm font-bold text-slate-900">100%</span>
-</div>
-</div>
-<div class="flex-1 flex flex-col justify-center gap-2.5">
-<div class="flex items-center justify-between text-xs">
-<div class="flex items-center gap-2">
-<span class="w-2.5 h-2.5 rounded-full bg-[#136dec]"></span>
-<span class="text-slate-600 font-medium">Website</span>
-</div>
-<span class="text-slate-900 font-bold">45%</span>
-</div>
-<div class="flex items-center justify-between text-xs">
-<div class="flex items-center gap-2">
-<span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-<span class="text-slate-600 font-medium">Referrals</span>
-</div>
-<span class="text-slate-900 font-bold">25%</span>
-</div>
-<div class="flex items-center justify-between text-xs">
-<div class="flex items-center gap-2">
-<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-<span class="text-slate-600 font-medium">Social</span>
-</div>
-<span class="text-slate-900 font-bold">15%</span>
-</div>
-<div class="flex items-center justify-between text-xs">
-<div class="flex items-center gap-2">
-<span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-<span class="text-slate-600 font-medium">Events</span>
-</div>
-<span class="text-slate-900 font-bold">10%</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-<div class="lg:col-span-2 flex flex-col gap-4">
-<div class="flex items-center justify-between">
-<h3 class="text-slate-800 text-base font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-slate-400">check_circle</span>
-                        Pending Tasks
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full font-bold">5</span>
-</h3>
-<a class="text-primary text-sm font-medium hover:underline" href="#">View All</a>
-</div>
-<div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-<div class="divide-y divide-slate-100">
-<div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
-<div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
-<span class="material-symbols-outlined text-[20px]">call</span>
-</div>
-<div class="flex-1 min-w-0">
-<p class="text-sm font-semibold text-slate-900 truncate">Call Inquiry: Michael Scott</p>
-<p class="text-xs text-slate-500">Interested in 3BHK downtown • Added today</p>
-</div>
-<div class="flex items-center gap-4">
-<span class="hidden sm:flex text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded">Overdue 15m</span>
-<button class="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors">
-<span class="material-symbols-outlined">check</span>
-</button>
-</div>
-</div>
-<div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
-<div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100">
-<span class="material-symbols-outlined text-[20px]">mail</span>
-</div>
-<div class="flex-1 min-w-0">
-<p class="text-sm font-semibold text-slate-900 truncate">Send Brochure: Anna Lee</p>
-<p class="text-xs text-slate-500">Villa Project A • Created 2h ago</p>
-</div>
-<div class="flex items-center gap-4">
-<span class="hidden sm:flex text-xs font-medium text-slate-500">Due 4:00 PM</span>
-<button class="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors">
-<span class="material-symbols-outlined">check</span>
-</button>
-</div>
-</div>
-<div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
-<div class="flex-shrink-0 h-10 w-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-100">
-<span class="material-symbols-outlined text-[20px]">calendar_month</span>
-</div>
-<div class="flex-1 min-w-0">
-<p class="text-sm font-semibold text-slate-900 truncate">Site Visit: Elena Rodriguez</p>
-<p class="text-xs text-slate-500">Luxury Penthouse • Tomorrow 10:00 AM</p>
-</div>
-<div class="flex items-center gap-4">
-<span class="hidden sm:flex text-xs font-medium text-slate-500">Tomorrow</span>
-<button class="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors">
-<span class="material-symbols-outlined">check</span>
-</button>
-</div>
-</div>
-</div>
-<div class="p-3 bg-slate-50 border-t border-slate-100 flex justify-center">
-<button class="text-xs font-medium text-slate-500 hover:text-primary flex items-center gap-1 transition-colors">
-<span class="material-symbols-outlined text-[16px]">add</span> Add Task
-                        </button>
-</div>
-</div>
-</div>
-<div class="flex flex-col gap-4">
-<div class="flex items-center justify-between">
-<h3 class="text-slate-800 text-base font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-slate-400">person_add</span>
-                        New Leads
-                    </h3>
-</div>
-<div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex-1">
-<div class="p-4 border-b border-slate-100 bg-slate-50/50">
-<div class="relative">
-<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-[18px]">search</span>
-<input class="w-full pl-9 pr-4 py-2 rounded-md border border-slate-200 bg-white text-xs focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="Filter new leads..." type="text"/>
-</div>
-</div>
-<div class="divide-y divide-slate-100 max-h-[300px] overflow-y-auto custom-scrollbar">
-<div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
-<div class="flex items-center gap-3">
-<div class="h-8 w-8 rounded-full bg-cover bg-center ring-1 ring-slate-100" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPe8aAB3jVE7JJmP3Hy9uKKDjpRpPztG_75pKAX6Qbd5flVPm4dKdSZC7g4fu5xsmzxc0iZULJwY4Wiu0zcbM9usls-gzIDgfTqPOAqM6lrsLHUnBU3_3XoY-aFSGgR-TezwPQe4C7W-knlQG_ffDJb9YIBlFMUhWgK1ic2bTkLgMDJptGBsGsK0Od8SagXVGQyMXdtuF1OhNLVuOkOS3aOh31C3mOmjmnp5e908hOAOa6cQ2yI5bV4AOJC2_oUVei-hDdrlshW-1y')"></div>
-<div class="flex-1 overflow-hidden">
-<p class="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">Michael Scott</p>
-<p class="text-[10px] text-slate-500 truncate">3BHK • Budget $450k</p>
-</div>
-<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
-</div>
-</div>
-<div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
-<div class="flex items-center gap-3">
-<div class="h-8 w-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold ring-1 ring-slate-100">AL</div>
-<div class="flex-1 overflow-hidden">
-<p class="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">Anna Lee</p>
-<p class="text-[10px] text-slate-500 truncate">Villa • Budget $1.2M</p>
-</div>
-<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
-</div>
-</div>
-<div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
-<div class="flex items-center gap-3">
-<div class="h-8 w-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center text-xs font-bold ring-1 ring-slate-100">RJ</div>
-<div class="flex-1 overflow-hidden">
-<p class="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">Rajesh Jain</p>
-<p class="text-[10px] text-slate-500 truncate">Plot • Budget $200k</p>
-</div>
-<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
-</div>
-</div>
-<div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
-<div class="flex items-center gap-3">
-<div class="h-8 w-8 rounded-full bg-cover bg-center ring-1 ring-slate-100" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmrrEP4rarhXFDsxUl65lCikNvDmMB3838wO2_iQjpXZSoJCsZNOZfx0JgpzSqQ6DDks57uNh7LGE7OQMjYoeo1arB4aL7Xkqlh_pAJLQA8CBFbgc6Dc0dpkNDdTuRNZGywtUHzOEQYY0Z7d9-5UN_6JlmRstsvSPiWjkNoIaqTbQ2uluti3N7_S9HIldrFRC8XN2AA_3zgFSDQ8nQm_ubpjVYUFmc6fjNAErUxc7ebf0eyyUndPeitJkaPZi0UTEAI_JNiy4zxbjH')"></div>
-<div class="flex-1 overflow-hidden">
-<p class="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">David Chen</p>
-<p class="text-[10px] text-slate-500 truncate">Commercial • Budget $800k</p>
-</div>
-<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
-</div>
-</div>
-</div>
-<button class="w-full p-2 text-xs text-center text-slate-500 hover:text-slate-700 bg-slate-50 border-t border-slate-100 transition-colors">
-                        View all 12 new leads
+    <aside class="w-64 bg-white border-r border-slate-200 flex-col hidden md:flex h-full flex-shrink-0 z-20">
+        <div class="p-6 flex items-center gap-3">
+            <div
+                class="h-8 w-8 rounded bg-primary flex items-center justify-center text-white shadow-md shadow-blue-200">
+                <span class="material-symbols-outlined text-xl">apartment</span>
+            </div>
+            <h1 class="text-slate-800 text-lg font-bold tracking-tight">Estate CRM</h1>
+        </div>
+        <nav class="flex-1 px-4 flex flex-col gap-2 overflow-y-auto">
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100"
+                href="#">
+                <span class="material-symbols-outlined fill-1">dashboard</span>
+                <span class="text-sm font-medium">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                href="#">
+                <span class="material-symbols-outlined">group</span>
+                <span class="text-sm font-medium">Leads Pipeline</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                href="#">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-sm font-medium">Properties</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                href="#">
+                <span class="material-symbols-outlined">calendar_today</span>
+                <span class="text-sm font-medium">Calendar</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                href="#">
+                <span class="material-symbols-outlined">description</span>
+                <span class="text-sm font-medium">Reports</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-slate-100">
+            <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition-colors">
+                <div class="h-10 w-10 rounded-full bg-cover bg-center border border-slate-200" data-alt="User avatar"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDu_7q6YFd7a1Phk0IWcojbXEOyyypJhnEFuvR0q6K9FBldFRGqUeZkH5yDxPpW-GlkmFQ0kgcOUgMwk3jcqY23Twosnb5eKlMuSxbjWkBdT2Zz4SRvREqHeAOFcVzvY-hTERwdBhr374pP_dmK90iRjEqr4m84gXIydSHwN_Erc4ZYmXf6A_JYlVNWFs4dwmUDpqFWQTJcr-FJ75xHh9HSbFDjTcf1wsYktmvL6dbQ0r-leYKsSO_DS8wH8pMK9in9algqGs9mXqvf')">
+                </div>
+                <div class="flex flex-col overflow-hidden">
+                    <p class="text-slate-800 text-sm font-medium truncate">Sarah Jenkins</p>
+                    <p class="text-slate-500 text-xs truncate">Presales Agent</p>
+                </div>
+            </div>
+            <button
+                class="mt-2 w-full flex items-center justify-center gap-2 text-slate-400 hover:text-slate-700 text-xs py-2 transition-colors">
+                <span class="material-symbols-outlined text-base">logout</span>
+                Log Out
+            </button>
+        </div>
+    </aside>
+    <main class="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light">
+        <header class="flex-shrink-0 z-10 bg-white border-b border-slate-200">
+            <div class="flex flex-wrap items-center justify-between gap-4 p-6">
+                <div class="flex flex-col gap-1">
+                    <h2 class="text-2xl md:text-3xl font-black tracking-tight text-slate-900">Dashboard</h2>
+                    <p class="text-slate-500 text-sm">Overview of your real estate operations and daily tasks.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button
+                        class="hidden sm:flex h-10 items-center justify-center gap-2 px-4 rounded-lg border border-slate-200 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]">download</span>
+                        Export Report
                     </button>
-</div>
-</div>
-</div>
-</div>
-</main>
-</body></html>
+                    <button
+                        class="flex h-10 items-center justify-center gap-2 px-4 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">add</span>
+                        Add New Lead
+                    </button>
+                </div>
+            </div>
+        </header>
+        <div class="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Total Leads</p>
+                    <div class="flex items-end justify-between">
+                        <p class="text-2xl font-bold text-slate-900">1,240</p>
+                        <span
+                            class="text-emerald-600 text-xs font-bold bg-emerald-50 px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-emerald-100">
+                            <span class="material-symbols-outlined text-[14px]">trending_up</span> 5%
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Qualified Leads</p>
+                    <div class="flex items-end justify-between">
+                        <p class="text-2xl font-bold text-slate-900">315</p>
+                        <span
+                            class="text-emerald-600 text-xs font-bold bg-emerald-50 px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-emerald-100">
+                            <span class="material-symbols-outlined text-[14px]">trending_up</span> 2%
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Conversion Rate</p>
+                    <div class="flex items-end justify-between">
+                        <p class="text-2xl font-bold text-slate-900">12.5%</p>
+                        <span
+                            class="text-emerald-600 text-xs font-bold bg-emerald-50 px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-emerald-100">
+                            <span class="material-symbols-outlined text-[14px]">trending_up</span> 1.5%
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-xs font-medium uppercase tracking-wider">Calls Made Today</p>
+                    <div class="flex items-end justify-between">
+                        <p class="text-2xl font-bold text-slate-900">48</p>
+                        <span
+                            class="text-orange-600 text-xs font-bold bg-orange-50 px-1.5 py-0.5 rounded flex items-center gap-0.5 border border-orange-100">
+                            <span class="material-symbols-outlined text-[14px]">trending_down</span> 10%
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 flex flex-col gap-4">
+                    <h3 class="text-slate-800 text-base font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-slate-400">hourglass_top</span>
+                        Lead Response Status
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full">
+                        <div
+                            class="bg-white p-4 rounded-xl border border-blue-100 shadow-sm flex items-center justify-between group cursor-pointer hover:border-blue-300 transition-colors">
+                            <div class="flex flex-col">
+                                <p class="text-slate-500 text-xs font-medium">Newly Created</p>
+                                <p class="text-2xl font-bold text-slate-900 mt-1">12</p>
+                            </div>
+                            <div
+                                class="h-10 w-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined">new_releases</span>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-4 rounded-xl border border-indigo-100 shadow-sm flex items-center justify-between group cursor-pointer hover:border-indigo-300 transition-colors">
+                            <div class="flex flex-col">
+                                <p class="text-slate-500 text-xs font-medium">Created ≤ 1 days</p>
+                                <p class="text-2xl font-bold text-slate-900 mt-1">8</p>
+                            </div>
+                            <div
+                                class="h-10 w-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined">schedule</span>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm flex items-center justify-between group cursor-pointer hover:border-amber-300 transition-colors">
+                            <div class="flex flex-col">
+                                <p class="text-slate-500 text-xs font-medium">Created 1-3 days</p>
+                                <p class="text-2xl font-bold text-slate-900 mt-1">15</p>
+                            </div>
+                            <div
+                                class="h-10 w-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined">history</span>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white p-4 rounded-xl border border-rose-100 shadow-sm flex items-center justify-between group cursor-pointer hover:border-rose-300 transition-colors">
+                            <div class="flex flex-col">
+                                <p class="text-slate-500 text-xs font-medium">Created &gt; 3 days</p>
+                                <p class="text-2xl font-bold text-slate-900 mt-1">5</p>
+                            </div>
+                            <div
+                                class="h-10 w-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined">warning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <h3 class="text-slate-800 text-base font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-slate-400">donut_large</span>
+                        Lead Sources
+                    </h3>
+                    <div
+                        class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center h-full">
+                        <div class="flex items-center gap-5">
+                            <div class="relative w-28 h-28 flex-shrink-0 rounded-full"
+                                style="background: conic-gradient(#136dec 0% 45%, #6366f1 45% 70%, #f59e0b 70% 85%, #f43f5e 85% 100%);">
+                                <div
+                                    class="absolute inset-3 bg-white rounded-full flex items-center justify-center flex-col shadow-inner shadow-slate-100">
+                                    <span
+                                        class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total</span>
+                                    <span class="text-sm font-bold text-slate-900">100%</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 flex flex-col justify-center gap-2.5">
+                                <div class="flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-[#136dec]"></span>
+                                        <span class="text-slate-600 font-medium">Website</span>
+                                    </div>
+                                    <span class="text-slate-900 font-bold">45%</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                                        <span class="text-slate-600 font-medium">Referrals</span>
+                                    </div>
+                                    <span class="text-slate-900 font-bold">25%</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                                        <span class="text-slate-600 font-medium">Social</span>
+                                    </div>
+                                    <span class="text-slate-900 font-bold">15%</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                                        <span class="text-slate-600 font-medium">Events</span>
+                                    </div>
+                                    <span class="text-slate-900 font-bold">10%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-slate-800 text-base font-bold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-slate-400">check_circle</span>
+                            Pending Tasks
+                            <span
+                                class="bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full font-bold">5</span>
+                        </h3>
+                        <a class="text-primary text-sm font-medium hover:underline" href="#">View All</a>
+                    </div>
+                    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="divide-y divide-slate-100">
+                            <div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+                                <div
+                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
+                                    <span class="material-symbols-outlined text-[20px]">call</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-semibold text-slate-900 truncate">Call Inquiry: Michael Scott
+                                    </p>
+                                    <p class="text-xs text-slate-500">Interested in 3BHK downtown • Added today</p>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span
+                                        class="hidden sm:flex text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded">Overdue
+                                        15m</span>
+                                    <button
+                                        class="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors">
+                                        <span class="material-symbols-outlined">check</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+                                <div
+                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100">
+                                    <span class="material-symbols-outlined text-[20px]">mail</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-semibold text-slate-900 truncate">Send Brochure: Anna Lee</p>
+                                    <p class="text-xs text-slate-500">Villa Project A • Created 2h ago</p>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="hidden sm:flex text-xs font-medium text-slate-500">Due 4:00 PM</span>
+                                    <button
+                                        class="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors">
+                                        <span class="material-symbols-outlined">check</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+                                <div
+                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-100">
+                                    <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-semibold text-slate-900 truncate">Site Visit: Elena Rodriguez
+                                    </p>
+                                    <p class="text-xs text-slate-500">Luxury Penthouse • Tomorrow 10:00 AM</p>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <span class="hidden sm:flex text-xs font-medium text-slate-500">Tomorrow</span>
+                                    <button
+                                        class="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors">
+                                        <span class="material-symbols-outlined">check</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-slate-50 border-t border-slate-100 flex justify-center">
+                            <button
+                                class="text-xs font-medium text-slate-500 hover:text-primary flex items-center gap-1 transition-colors">
+                                <span class="material-symbols-outlined text-[16px]">add</span> Add Task
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-slate-800 text-base font-bold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-slate-400">person_add</span>
+                            New Leads
+                        </h3>
+                    </div>
+                    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex-1">
+                        <div class="p-4 border-b border-slate-100 bg-slate-50/50">
+                            <div class="relative">
+                                <span
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-[18px]">search</span>
+                                <input
+                                    class="w-full pl-9 pr-4 py-2 rounded-md border border-slate-200 bg-white text-xs focus:ring-1 focus:ring-primary focus:border-primary outline-none"
+                                    placeholder="Filter new leads..." type="text" />
+                            </div>
+                        </div>
+                        <div class="divide-y divide-slate-100 max-h-[300px] overflow-y-auto custom-scrollbar">
+                            <div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-8 w-8 rounded-full bg-cover bg-center ring-1 ring-slate-100"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPe8aAB3jVE7JJmP3Hy9uKKDjpRpPztG_75pKAX6Qbd5flVPm4dKdSZC7g4fu5xsmzxc0iZULJwY4Wiu0zcbM9usls-gzIDgfTqPOAqM6lrsLHUnBU3_3XoY-aFSGgR-TezwPQe4C7W-knlQG_ffDJb9YIBlFMUhWgK1ic2bTkLgMDJptGBsGsK0Od8SagXVGQyMXdtuF1OhNLVuOkOS3aOh31C3mOmjmnp5e908hOAOa6cQ2yI5bV4AOJC2_oUVei-hDdrlshW-1y')">
+                                    </div>
+                                    <div class="flex-1 overflow-hidden">
+                                        <p
+                                            class="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">
+                                            Michael Scott</p>
+                                        <p class="text-[10px] text-slate-500 truncate">3BHK • Budget $450k</p>
+                                    </div>
+                                    <span
+                                        class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
+                                </div>
+                            </div>
+                            <div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="h-8 w-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold ring-1 ring-slate-100">
+                                        AL</div>
+                                    <div class="flex-1 overflow-hidden">
+                                        <p
+                                            class="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">
+                                            Anna Lee</p>
+                                        <p class="text-[10px] text-slate-500 truncate">Villa • Budget $1.2M</p>
+                                    </div>
+                                    <span
+                                        class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
+                                </div>
+                            </div>
+                            <div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="h-8 w-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center text-xs font-bold ring-1 ring-slate-100">
+                                        RJ</div>
+                                    <div class="flex-1 overflow-hidden">
+                                        <p
+                                            class="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">
+                                            Rajesh Jain</p>
+                                        <p class="text-[10px] text-slate-500 truncate">Plot • Budget $200k</p>
+                                    </div>
+                                    <span
+                                        class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
+                                </div>
+                            </div>
+                            <div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-8 w-8 rounded-full bg-cover bg-center ring-1 ring-slate-100"
+                                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmrrEP4rarhXFDsxUl65lCikNvDmMB3838wO2_iQjpXZSoJCsZNOZfx0JgpzSqQ6DDks57uNh7LGE7OQMjYoeo1arB4aL7Xkqlh_pAJLQA8CBFbgc6Dc0dpkNDdTuRNZGywtUHzOEQYY0Z7d9-5UN_6JlmRstsvSPiWjkNoIaqTbQ2uluti3N7_S9HIldrFRC8XN2AA_3zgFSDQ8nQm_ubpjVYUFmc6fjNAErUxc7ebf0eyyUndPeitJkaPZi0UTEAI_JNiy4zxbjH')">
+                                    </div>
+                                    <div class="flex-1 overflow-hidden">
+                                        <p
+                                            class="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">
+                                            David Chen</p>
+                                        <p class="text-[10px] text-slate-500 truncate">Commercial • Budget $800k</p>
+                                    </div>
+                                    <span
+                                        class="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full p-2 text-xs text-center text-slate-500 hover:text-slate-700 bg-slate-50 border-t border-slate-100 transition-colors">
+                            View all 12 new leads
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
