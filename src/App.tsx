@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Leads from './pages/Leads';
-import './App.css';
+import Login from './pages/Login';
 
-function App() {
-    // Simple state-based routing for now
+const MainApp = () => {
     const [currentPage, setCurrentPage] = useState('dashboard');
 
     const renderPage = () => {
@@ -17,10 +17,35 @@ function App() {
     };
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', width: '100%', backgroundColor: 'var(--color-bg-main)' }}>
+        <div className="flex min-h-screen w-full bg-background-light">
             <Sidebar onNavigate={setCurrentPage} activePage={currentPage} />
             {renderPage()}
         </div>
+    );
+};
+
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    return isAuthenticated ? <>{children}</> : <Navigate to="/" />;
+};
+
+function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <PrivateRoute>
+                            <MainApp />
+                        </PrivateRoute>
+                    }
+                />
+                {/* Redirect any unknown route to home (login) */}
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </Router>
     );
 }
 
