@@ -1,0 +1,135 @@
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: var(--color-bg-card);
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 20;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-container {
+    height: 2rem;
+    width: 2rem;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5);
+}
+
+.app-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.025em;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.nav-item:hover {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-primary);
+}
+
+.nav-item.active {
+    background-color: var(--color-info-bg);
+    color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-info-border);
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 0.5rem;
+}
+
+.user-profile:hover {
+    background-color: var(--color-bg-main);
+}
+
+.avatar {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 9999px;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--color-border);
+}
+
+.user-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    transition: color 0.2s;
+}
+
+.logout-btn:hover {
+    color: var(--color-text-primary);
+}
