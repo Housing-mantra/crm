@@ -21,7 +21,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
 
     const handleLogout = () => {
         localStorage.removeItem('isAuthenticated');
-        navigate('/');
+        // Force a full page reload to ensure auth state is reset and App re-mounts
+        window.location.href = '/';
     };
 
     return (
