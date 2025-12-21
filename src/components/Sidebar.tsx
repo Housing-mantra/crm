@@ -45,8 +45,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
             )}
 
             <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 md:relative md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                <div className="p-6 flex items-center justify-center">
-                    <img src="/logo.png" alt="Housing Mantra" className="max-w-full h-auto max-h-[50px] object-contain" />
+                <div className="p-6 flex items-center gap-3">
+                    <div className="h-8 w-8 rounded bg-primary flex items-center justify-center text-white shadow-md shadow-blue-200">
+                        <Home size={20} />
+                    </div>
+                    <h1 className="text-slate-800 text-lg font-bold tracking-tight">Real Estate CRM</h1>
                 </div>
 
                 <nav className="flex-1 px-4 flex flex-col gap-2 overflow-y-auto">
