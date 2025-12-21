@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Leads from './pages/Leads';
+import Calendar from './pages/Calendar';
+import Projects from './pages/Projects';
+import Data from './pages/Data';
+import Reports from './pages/Reports';
 import Login from './pages/Login';
 
 const MainApp = () => {
-    const [currentPage, setCurrentPage] = useState('dashboard');
-
-    const renderPage = () => {
-        switch (currentPage) {
-            case 'dashboard': return <Dashboard />;
-            case 'leads': return <Leads />;
-            default: return <Dashboard />;
-        }
-    };
-
     return (
         <div className="flex min-h-screen w-full bg-background-light">
-            <Sidebar onNavigate={setCurrentPage} activePage={currentPage} />
-            {renderPage()}
+            <Sidebar />
+            <Routes>
+                <Route index element={<Dashboard />} />
+                <Route path="leads" element={<Leads />} />
+                <Route path="calendar" element={<Calendar />} />
+                <Route path="projects" element={<Projects />} />
+                <Route path="data" element={<Data />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="*" element={<Navigate to="." replace />} />
+            </Routes>
         </div>
     );
 };
@@ -34,7 +36,7 @@ function App() {
         <Routes>
             <Route path="/" element={<Login />} />
             <Route
-                path="/dashboard"
+                path="/dashboard/*"
                 element={
                     <PrivateRoute>
                         <MainApp />

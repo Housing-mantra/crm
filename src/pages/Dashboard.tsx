@@ -1,9 +1,9 @@
 import React from 'react';
-import { Download, Plus, TrendingUp, TrendingDown, Hourglass, CheckCircle, Phone, Mail, Calendar as CalendarIcon, PersonStanding, Search, Clock, History, AlertTriangle, UserPlus, PieChart } from 'lucide-react';
+import { Download, Plus, TrendingUp, TrendingDown, Hourglass, CheckCircle, Phone, Mail, Calendar as CalendarIcon, Search, Clock, History, AlertTriangle, UserPlus, PieChart } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
     return (
-        <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light">
+        <main className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light">
             <header className="flex-shrink-0 z-10 bg-white border-b border-slate-200">
                 <div className="flex flex-wrap items-center justify-between gap-4 p-6">
                     <div className="flex flex-col gap-1">
@@ -283,7 +283,7 @@ const Dashboard: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 

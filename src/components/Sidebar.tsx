@@ -1,29 +1,20 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Users, Home, Calendar, FileText, LogOut, Menu, X, Database } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Users, Home, Calendar as CalendarIcon, FileText, LogOut, Menu, X, Database } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
-interface SidebarProps {
-    onNavigate?: (page: string) => void;
-    activePage?: string;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' }) => {
+const Sidebar: React.FC = () => {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
-    const navigate = useNavigate();
-
-    const handleNavClick = (page: string, e: React.MouseEvent) => {
-        e.preventDefault();
-        if (onNavigate) {
-            onNavigate(page);
-        }
-        setIsMobileOpen(false);
-    };
 
     const handleLogout = () => {
         localStorage.removeItem('isAuthenticated');
-        // Force a full page reload to ensure auth state is reset and App re-mounts
         window.location.href = '/';
     };
+
+    const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+        `w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${isActive ? 'bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`;
+
+    const iconClass = (isActive: boolean) =>
+        isActive ? 'text-primary' : '';
 
     return (
         <>
@@ -53,33 +44,85 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
                 </div>
 
                 <nav className="flex-1 px-4 flex flex-col gap-2 overflow-y-auto">
-                    <button className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activePage === 'dashboard' ? 'bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`} onClick={(e) => handleNavClick('dashboard', e)}>
-                        <LayoutDashboard size={20} className={activePage === 'dashboard' ? 'text-primary' : ''} />
-                        <span className="text-sm font-medium">Dashboard</span>
-                    </button>
+                    <NavLink
+                        to="/dashboard"
+                        end
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <LayoutDashboard size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Dashboard</span>
+                            </>
+                        )}
+                    </NavLink>
 
                     {/* New Data Menu */}
-                    <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                        <Database size={20} />
-                        <span className="text-sm font-medium">Data</span>
-                    </a>
+                    <NavLink
+                        to="/dashboard/data"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <Database size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Data</span>
+                            </>
+                        )}
+                    </NavLink>
 
-                    <button className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activePage === 'leads' ? 'bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`} onClick={(e) => handleNavClick('leads', e)}>
-                        <Users size={20} className={activePage === 'leads' ? 'text-primary' : ''} />
-                        <span className="text-sm font-medium">Leads</span>
-                    </button>
-                    <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                        <Home size={20} />
-                        <span className="text-sm font-medium">Properties</span>
-                    </a>
-                    <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                        <Calendar size={20} />
-                        <span className="text-sm font-medium">Calendar</span>
-                    </a>
-                    <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                        <FileText size={20} />
-                        <span className="text-sm font-medium">Reports</span>
-                    </a>
+                    <NavLink
+                        to="/dashboard/leads"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <Users size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Leads</span>
+                            </>
+                        )}
+                    </NavLink>
+
+                    <NavLink
+                        to="/dashboard/projects"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <Home size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Projects</span>
+                            </>
+                        )}
+                    </NavLink>
+
+                    <NavLink
+                        to="/dashboard/calendar"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <CalendarIcon size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Calendar</span>
+                            </>
+                        )}
+                    </NavLink>
+
+                    <NavLink
+                        to="/dashboard/reports"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <FileText size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Reports</span>
+                            </>
+                        )}
+                    </NavLink>
                 </nav>
 
                 <div className="p-4 border-t border-slate-100">
