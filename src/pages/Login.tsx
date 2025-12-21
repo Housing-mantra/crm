@@ -8,6 +8,12 @@ const Login: React.FC = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    React.useEffect(() => {
+        if (localStorage.getItem('isAuthenticated') === 'true') {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
+
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         if (username === 'admin' && password === 'admin123') {

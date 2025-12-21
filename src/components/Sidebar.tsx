@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LayoutDashboard, Users, Home, Calendar, FileText, LogOut, Menu, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
     onNavigate?: (page: string) => void;
@@ -8,6 +9,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' }) => {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleNavClick = (page: string, e: React.MouseEvent) => {
         e.preventDefault();
@@ -15,6 +17,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
             onNavigate(page);
         }
         setIsMobileOpen(false);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('isAuthenticated');
+        navigate('/');
     };
 
     return (
@@ -42,14 +49,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
                 </div>
 
                 <nav className="flex-1 px-4 flex flex-col gap-2 overflow-y-auto">
-                    <a href="#" className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activePage === 'dashboard' ? 'bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`} onClick={(e) => handleNavClick('dashboard', e)}>
+                    <button className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activePage === 'dashboard' ? 'bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`} onClick={(e) => handleNavClick('dashboard', e)}>
                         <LayoutDashboard size={20} className={activePage === 'dashboard' ? 'text-primary' : ''} />
                         <span className="text-sm font-medium">Dashboard</span>
-                    </a>
-                    <a href="#" className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activePage === 'leads' ? 'bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`} onClick={(e) => handleNavClick('leads', e)}>
+                    </button>
+                    <button className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activePage === 'leads' ? 'bg-blue-50 text-primary shadow-sm ring-1 ring-blue-100' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`} onClick={(e) => handleNavClick('leads', e)}>
                         <Users size={20} className={activePage === 'leads' ? 'text-primary' : ''} />
                         <span className="text-sm font-medium">Leads Pipeline</span>
-                    </a>
+                    </button>
                     <a href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
                         <Home size={20} />
                         <span className="text-sm font-medium">Properties</span>
@@ -72,7 +79,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, activePage = 'dashboard' 
                             <p className="text-slate-500 text-xs truncate">Presales Agent</p>
                         </div>
                     </div>
-                    <button className="mt-2 w-full flex items-center justify-center gap-2 text-slate-400 hover:text-slate-700 text-xs py-2 transition-colors">
+                    <button
+                        onClick={handleLogout}
+                        className="mt-2 w-full flex items-center justify-center gap-2 text-slate-400 hover:text-slate-700 text-xs py-2 transition-colors"
+                    >
                         <LogOut size={16} />
                         Log Out
                     </button>
