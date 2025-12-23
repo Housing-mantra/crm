@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Users, Home, Calendar as CalendarIcon, FileText, LogOut, Menu, X, Database } from 'lucide-react';
+import { LayoutDashboard, Users, Home, Calendar as CalendarIcon, FileText, LogOut, Menu, X, Database, Handshake, Blocks } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
@@ -99,6 +99,19 @@ const Sidebar: React.FC = () => {
                     </NavLink>
 
                     <NavLink
+                        to="/dashboard/channel-partner"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <Handshake size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Channel Partner</span>
+                            </>
+                        )}
+                    </NavLink>
+
+                    <NavLink
                         to="/dashboard/calendar"
                         className={navLinkClass}
                         onClick={() => setIsMobileOpen(false)}
@@ -107,6 +120,19 @@ const Sidebar: React.FC = () => {
                             <>
                                 <CalendarIcon size={20} className={iconClass(isActive)} />
                                 <span className="text-sm font-medium">Calendar</span>
+                            </>
+                        )}
+                    </NavLink>
+
+                    <NavLink
+                        to="/dashboard/integration"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <Blocks size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Integration</span>
                             </>
                         )}
                     </NavLink>

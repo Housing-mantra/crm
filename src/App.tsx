@@ -5,7 +5,9 @@ import Dashboard from './pages/Dashboard';
 import Leads from './pages/Leads';
 import Calendar from './pages/Calendar';
 import Projects from './pages/Projects';
+import ChannelPartner from './pages/ChannelPartner';
 import Data from './pages/Data';
+import Integration from './pages/Integration';
 import Reports from './pages/Reports';
 import Login from './pages/Login';
 
@@ -18,7 +20,9 @@ const MainApp = () => {
                 <Route path="leads" element={<Leads />} />
                 <Route path="calendar" element={<Calendar />} />
                 <Route path="projects" element={<Projects />} />
+                <Route path="channel-partner" element={<ChannelPartner />} />
                 <Route path="data" element={<Data />} />
+                <Route path="integration" element={<Integration />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="*" element={<Navigate to="." replace />} />
             </Routes>
