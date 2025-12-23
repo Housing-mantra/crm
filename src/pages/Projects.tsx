@@ -1,7 +1,29 @@
 import React from 'react';
-import { Search, Bell, Plus, ChevronDown, List, LayoutGrid, BedDouble, Bath, Ruler, MoreVertical } from 'lucide-react';
+import { Search, Bell, Plus, ChevronDown, List, LayoutGrid, MoreVertical } from 'lucide-react';
 
 const Projects: React.FC = () => {
+    const [projects, setProjects] = React.useState<any[]>([]);
+
+    React.useEffect(() => {
+        const saved = localStorage.getItem('crm_landing_pages');
+        let localProjects = [];
+        try {
+            if (saved) {
+                localProjects = JSON.parse(saved);
+            }
+        } catch (e) {
+            console.error('Error parsing projects', e);
+        }
+
+        // Default to 'The Forestia' if no projects found (Mock/Demo Data)
+        if (localProjects.length === 0) {
+            localProjects = [{ name: 'The Forestia', url: 'http://localhost:5173/The%20Forestia/index.html' }];
+            // Optionally save this back to sync state
+            localStorage.setItem('crm_landing_pages', JSON.stringify(localProjects));
+        }
+
+        setProjects(localProjects);
+    }, []);
     return (
         <div className="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark">
             {/* Top Nav (optional, usually handled by Dashboard layout but adding here if specific to this page view or just to match HTML structure inside main) - 
@@ -111,221 +133,48 @@ const Projects: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                                    {/* Row 1 */}
-                                    <tr className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-16 h-12 rounded-lg bg-cover bg-center shrink-0 border border-slate-200 dark:border-slate-600" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBj2qdgxqqunz72ZcPSHKCmNtLFcHLaQu7wr0pMshw1HtOaSsgy6rt7zmIw9hvKPNjGkqR-RRpKcWht3KtLVbZHQZk27tIoRORLv-IhSIUPK5SMAojSmkCJ6x_Byy5VfpPwr475K4rJs5rCs2oN48h_tqxnfctZ3zwoujBXtgpox0VDgS-shQ6t_oiMFfN07GZNL42u8va3n7Y_ww-0BVMiUEalmYNuZS5qMBybfvZyY1oTKOSkhQ7d-GYxDMYmDlVoGz5quwCu7x7s')" }}></div>
-                                                <div className="min-w-0">
-                                                    <p className="text-slate-900 dark:text-white font-bold text-sm truncate">4528 Sunny Disposition Ln</p>
-                                                    <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate">Austin, TX 78701 • MLS #123456</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-800">
-                                                <span className="size-1.5 rounded-full bg-green-500"></span>
-                                                For Sale
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <p className="text-slate-900 dark:text-white font-bold text-sm">$850,000</p>
-                                            <p className="text-slate-500 dark:text-slate-400 text-xs">$303/sqft</p>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm">
-                                                <div className="flex items-center gap-1" title="Bedrooms">
-                                                    <BedDouble size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">4</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Bathrooms">
-                                                    <Bath size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">3</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Square Feet">
-                                                    <Ruler size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">2,800</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <button className="text-slate-400 hover:text-primary dark:hover:text-white p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                                                <MoreVertical size={20} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    {/* Row 2 */}
-                                    <tr className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-16 h-12 rounded-lg bg-cover bg-center shrink-0 border border-slate-200 dark:border-slate-600" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBq1HirpSiLtayrp0k1KKeR5xsNC7pKrIkAK2exU6SYKnzXAMNm0DMEo3MU2yY0FvGEYhoxeIsCnzx1x6S-n_ppUEZBptZm1hVzxAKFPKK080NeVglyg5wNkF7UtA_6NgmarPT1p70PSQSXLGdOEvhGk4IkrmISF78uSnvHH9J48VQpQzkwZXKhjUldMX646UgJ_OD2H_iXe5u-FhNTk7UwSQJ2qwakbPoq1ZrllZFn_EzXKWIObHibx4g3iOLyWmG_1T9sMHMhlD6b')" }}></div>
-                                                <div className="min-w-0">
-                                                    <p className="text-slate-900 dark:text-white font-bold text-sm truncate">8921 Oakwood Drive</p>
-                                                    <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate">Round Rock, TX 78664 • MLS #789012</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-800">
-                                                <span className="size-1.5 rounded-full bg-amber-500"></span>
-                                                Pending
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <p className="text-slate-900 dark:text-white font-bold text-sm">$450,000</p>
-                                            <p className="text-slate-500 dark:text-slate-400 text-xs">$210/sqft</p>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm">
-                                                <div className="flex items-center gap-1" title="Bedrooms">
-                                                    <BedDouble size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">3</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Bathrooms">
-                                                    <Bath size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">2</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Square Feet">
-                                                    <Ruler size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">2,140</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <button className="text-slate-400 hover:text-primary dark:hover:text-white p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                                                <MoreVertical size={20} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    {/* Row 3 */}
-                                    <tr className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-16 h-12 rounded-lg bg-cover bg-center shrink-0 border border-slate-200 dark:border-slate-600" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6SPdshBaGEVxuqPxVwRjnmQCGFQw6-xFiY2_OnrGFzfsH9LnqgD-s-hsIarJ5Fk2jnQXcMBk6jHP6KItfpO7xG3dtASxWcnv5UEtYjuIct1penlTOd87cD7SfNIqw7P_nX5ybLQASQyM5q-l6XzwBBVuj5KF3rPuS2jbSMIgeyNaAmyyJc3xPf6bQUyjv1UK2Hiscp7cKlc85my9DzCRtKds84lzKkceoNSPpGPgCrE_r-0Lu67A2nHeGf3zyVd0G6Cl1ZxkTKRIt')" }}></div>
-                                                <div className="min-w-0">
-                                                    <p className="text-slate-900 dark:text-white font-bold text-sm truncate">100 Congress Ave #2204</p>
-                                                    <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate">Austin, TX 78701 • MLS #345678</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-600">
-                                                <span className="size-1.5 rounded-full bg-slate-500"></span>
-                                                Off Market
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <p className="text-slate-900 dark:text-white font-bold text-sm">$1,200,000</p>
-                                            <p className="text-slate-500 dark:text-slate-400 text-xs">$800/sqft</p>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm">
-                                                <div className="flex items-center gap-1" title="Bedrooms">
-                                                    <BedDouble size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">2</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Bathrooms">
-                                                    <Bath size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">2.5</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Square Feet">
-                                                    <Ruler size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">1,500</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <button className="text-slate-400 hover:text-primary dark:hover:text-white p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                                                <MoreVertical size={20} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    {/* Row 4 */}
-                                    <tr className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-16 h-12 rounded-lg bg-cover bg-center shrink-0 border border-slate-200 dark:border-slate-600" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuBb_AcsAB103ss5RvxhHLED7Sq8-Jgar_55p_XyWpWXGQTSzTVV6mvnhTArLeqsgN2Y24FWVaRLzSnFrlGngymOPSKKYvXpPVW390KS2jVsdlJ9FpFho1VZOqrfXgylFM2cD7X3kAZ6SIS5Lh7AVWtmTUNX16lVL6HogEISjaquDvNvv8Yb1_roki8l9RxDu-J_-k7LUwKwppnO9xE__Vp7KK4qorYC8fqQ5FWJM_jINwcFvwOcbae5eeedN6wwgv-zvqcq8BTVuxZX')" }}></div>
-                                                <div className="min-w-0">
-                                                    <p className="text-slate-900 dark:text-white font-bold text-sm truncate">5500 Westlake Drive</p>
-                                                    <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate">Austin, TX 78746 • MLS #992211</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-800">
-                                                <span className="size-1.5 rounded-full bg-green-500"></span>
-                                                For Sale
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <p className="text-slate-900 dark:text-white font-bold text-sm">$2,450,000</p>
-                                            <p className="text-slate-500 dark:text-slate-400 text-xs">$544/sqft</p>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm">
-                                                <div className="flex items-center gap-1" title="Bedrooms">
-                                                    <BedDouble size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">5</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Bathrooms">
-                                                    <Bath size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">4.5</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Square Feet">
-                                                    <Ruler size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">4,500</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <button className="text-slate-400 hover:text-primary dark:hover:text-white p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                                                <MoreVertical size={20} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    {/* Row 5 */}
-                                    <tr className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-16 h-12 rounded-lg bg-cover bg-center shrink-0 border border-slate-200 dark:border-slate-600" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAybi8TKVYAkyOCeIBge4VoDudHdYRZQKxxdy5raT8LyKkoXDq53zFEp2zfeG7NoOSCPPvhD7JACRUxF8eTLmtch2mmk-2jgoy4RS-qOxeINhfMTVRARr71tEDc2cVTkaDE-r96oQJkGBdfJzoXWZ9pf5i08VKsg0yO6cWSeJ4ICXMK8SqfasXNcol3SgXdLC_F4FkOiZRC8y3RFequuzyundFZXqto_bvgaRGW9j7jEluDvVttSfS78LlEXqjhxccnkDi_c5pyd8g3')" }}></div>
-                                                <div className="min-w-0">
-                                                    <p className="text-slate-900 dark:text-white font-bold text-sm truncate">7712 Creative Road</p>
-                                                    <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate">Pflugerville, TX 78660 • MLS #112233</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-800">
-                                                <span className="size-1.5 rounded-full bg-blue-500"></span>
-                                                New
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <p className="text-slate-900 dark:text-white font-bold text-sm">$320,000</p>
-                                            <p className="text-slate-500 dark:text-slate-400 text-xs">$188/sqft</p>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm">
-                                                <div className="flex items-center gap-1" title="Bedrooms">
-                                                    <BedDouble size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">3</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Bathrooms">
-                                                    <Bath size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">2</span>
-                                                </div>
-                                                <div className="flex items-center gap-1" title="Square Feet">
-                                                    <Ruler size={18} />
-                                                    <span className="font-medium text-slate-900 dark:text-slate-200">1,700</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <button className="text-slate-400 hover:text-primary dark:hover:text-white p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                                                <MoreVertical size={20} />
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    {projects.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={5} className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
+                                                No projects found. Integrate a landing page to see it here.
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        projects.map((project, index) => (
+                                            <tr key={index} className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-16 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-600 font-bold text-slate-400 text-xs">
+                                                            IMG
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <p className="text-slate-900 dark:text-white font-bold text-sm truncate">{project.name}</p>
+                                                            <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate">{project.url}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-800">
+                                                        <span className="size-1.5 rounded-full bg-green-500"></span>
+                                                        Active
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <p className="text-slate-900 dark:text-white font-bold text-sm">-</p>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm">
+                                                        <span className="text-xs">Landing Page Integration</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 text-right">
+                                                    <button className="text-slate-400 hover:text-primary dark:hover:text-white p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                                                        <MoreVertical size={20} />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
                                 </tbody>
                             </table>
                         </div>

@@ -4,7 +4,27 @@ import { Blocks, Link, Layout, X } from 'lucide-react';
 const Integration: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPageForGuide, setSelectedPageForGuide] = useState<{ name: string; url: string } | null>(null);
-    const [landingPages, setLandingPages] = useState<{ name: string; url: string }[]>([]);
+    // Load initial state from localStorage if available
+    const [landingPages, setLandingPages] = useState<{ name: string; url: string }[]>(() => {
+        const saved = localStorage.getItem('crm_landing_pages');
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch (e) {
+                console.error('Failed to parse landing pages from local storage', e);
+                return [];
+            }
+        }
+        return [
+            { name: 'The Forestia', url: 'http://localhost:5173/The%20Forestia/index.html' }
+        ];
+    });
+
+    // Save to localStorage whenever landingPages changes
+    React.useEffect(() => {
+        localStorage.setItem('crm_landing_pages', JSON.stringify(landingPages));
+    }, [landingPages]);
+
     const [formData, setFormData] = useState({ name: '', url: '' });
 
     const handleConnectClick = () => {
@@ -109,6 +129,25 @@ const Integration: React.FC = () => {
                                                 className="text-primary hover:text-blue-700 text-sm font-medium"
                                             >
                                                 Setup Guide
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    const newLead = {
+                                                        id: Date.now().toString(),
+                                                        name: `Test User ${Math.floor(Math.random() * 1000)}`,
+                                                        budget: '$500k - $700k',
+                                                        type: 'Apartment',
+                                                        source: page.name,
+                                                        status: 'New',
+                                                        timestamp: Date.now()
+                                                    };
+                                                    const existingLeads = JSON.parse(localStorage.getItem('crm_leads') || '[]');
+                                                    localStorage.setItem('crm_leads', JSON.stringify([newLead, ...existingLeads]));
+                                                    alert('Lead simulated! Check Dashboard.');
+                                                }}
+                                                className="text-slate-600 hover:text-slate-900 text-sm font-medium"
+                                            >
+                                                Simulate Lead
                                             </button>
                                             <button className="text-red-600 hover:text-red-900 text-sm font-medium">Disconnect</button>
                                         </td>
