@@ -5,8 +5,22 @@ const Leads: React.FC = () => {
     const [leads, setLeads] = React.useState<any[]>([]);
 
     React.useEffect(() => {
-        const localLeads = JSON.parse(localStorage.getItem('crm_leads') || '[]');
-        setLeads(localLeads);
+        const fetchLeads = async () => {
+            try {
+                const response = await fetch('/api/leads');
+                if (response.ok) {
+                    const data = await response.json();
+                    setLeads(data);
+                }
+            } catch (error) {
+                console.error('Error fetching leads:', error);
+            }
+        };
+
+        fetchLeads();
+        // Poll every 30 seconds to update leads
+        const interval = setInterval(fetchLeads, 30000);
+        return () => clearInterval(interval);
     }, []);
 
     return (
@@ -113,11 +127,9 @@ const Leads: React.FC = () => {
                             </button>
                         </div>
                         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col gap-3 pb-4">
-                            {/* Local Storage Leads */}
-                            {(() => {
-                                const localLeads = JSON.parse(localStorage.getItem('crm_leads') || '[]');
-                                return localLeads.map((lead: any) => (
-                                    <div key={lead.id} className="group bg-white p-4 rounded-xl shadow-sm border border-slate-200 cursor-pointer hover:border-primary/50 hover:shadow-lg hover:shadow-blue-500/5 transition-all">
+                            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col gap-3 pb-4">
+                                {leads.map((lead: any) => (
+                                    <div key={lead._id || lead.id} className="group bg-white p-4 rounded-xl shadow-sm border border-slate-200 cursor-pointer hover:border-primary/50 hover:shadow-lg hover:shadow-blue-500/5 transition-all">
                                         <div className="flex justify-between items-start mb-3">
                                             <div className="flex items-center gap-3">
                                                 <div className="h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold ring-2 ring-white shadow-sm">
@@ -154,8 +166,8 @@ const Leads: React.FC = () => {
                                             </div>
                                         </div>
                                     </div>
-                                ));
-                            })()}
+                                ))}
+                            </div>
                         </div>
                     </div>
 

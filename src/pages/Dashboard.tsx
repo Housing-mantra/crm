@@ -5,8 +5,22 @@ const Dashboard: React.FC = () => {
     const [leads, setLeads] = React.useState<any[]>([]);
 
     React.useEffect(() => {
-        const localLeads = JSON.parse(localStorage.getItem('crm_leads') || '[]');
-        setLeads(localLeads);
+        const fetchLeads = async () => {
+            try {
+                const response = await fetch('/api/leads');
+                if (response.ok) {
+                    const data = await response.json();
+                    setLeads(data);
+                }
+            } catch (error) {
+                console.error('Error fetching leads:', error);
+            }
+        };
+
+        fetchLeads();
+        // Poll every 30 seconds to update leads
+        const interval = setInterval(fetchLeads, 30000);
+        return () => clearInterval(interval);
     }, []);
 
     return (
@@ -155,10 +169,9 @@ const Dashboard: React.FC = () => {
                                 </div>
                             </div>
                             <div className="divide-y divide-slate-100 max-h-[300px] overflow-y-auto custom-scrollbar">
-                                {(() => {
-                                    const localLeads = JSON.parse(localStorage.getItem('crm_leads') || '[]');
-                                    return localLeads.map((lead: any) => (
-                                        <div key={lead.id} className="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                <div className="divide-y divide-slate-100 max-h-[300px] overflow-y-auto custom-scrollbar">
+                                    {leads.map((lead: any) => (
+                                        <div key={lead._id || lead.id} className="p-3 hover:bg-slate-50 cursor-pointer transition-colors group">
                                             <div className="flex items-center gap-3">
                                                 <div className="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold ring-1 ring-slate-100">
                                                     {lead.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2)}
@@ -171,8 +184,8 @@ const Dashboard: React.FC = () => {
                                                 <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">New</span>
                                             </div>
                                         </div>
-                                    ));
-                                })()}
+                                    ))}
+                                </div>
                             </div>
                             <button className="w-full p-2 text-xs text-center text-slate-500 hover:text-slate-700 bg-slate-50 border-t border-slate-100 transition-colors">
                                 View all leads
