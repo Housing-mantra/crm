@@ -1,5 +1,6 @@
 import React from 'react';
 import { Download, Plus, TrendingUp, TrendingDown, Hourglass, CheckCircle, Search, Clock, History, AlertTriangle, UserPlus, PieChart } from 'lucide-react';
+import API_BASE_URL from '../config';
 
 const Dashboard: React.FC = () => {
     const [leads, setLeads] = React.useState<any[]>([]);
@@ -7,7 +8,7 @@ const Dashboard: React.FC = () => {
     React.useEffect(() => {
         const fetchLeads = async () => {
             try {
-                const response = await fetch('/api/leads');
+                const response = await fetch(`${API_BASE_URL}/api/leads`);
                 if (response.ok) {
                     const data = await response.json();
                     setLeads(data);

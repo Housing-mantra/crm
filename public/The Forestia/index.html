@@ -628,18 +628,11 @@
             }
         });
 
-        // Open popup on any click on the page
-        document.addEventListener('click', (e) => {
-            // Ignore clicks inside the popup content
-            if (e.target.closest('.popup-content')) return;
 
-            // If the popup is not fully open or we clicked something else, open it
-            openPopup();
-        });
     </script>
     <script>
         // CRM Integration
-        const WEBHOOK_URL = 'https://api.saryucrm.com/v1/webhooks/collect/the-forestia-6746';
+        const WEBHOOK_URL = 'https://crm-ub3x.onrender.com/api/webhooks/collect/the-forestia';
 
         async function handleFormSubmission(e, formId) {
             e.preventDefault();

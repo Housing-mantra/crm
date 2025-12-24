@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Blocks, Link, Layout, X } from 'lucide-react';
+import API_BASE_URL from '../config';
 
 const Integration: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -230,7 +231,7 @@ const Integration: React.FC = () => {
                             <div className="mb-6">
                                 <h4 className="text-sm font-bold text-slate-700 mb-2">Step 1: Your Webhook URL</h4>
                                 <div className="bg-slate-100 p-3 rounded-lg border border-slate-200 font-mono text-xs text-slate-800 break-all">
-                                    {window.location.origin}/api/webhooks/collect/{encodeURIComponent(selectedPageForGuide.name.toLowerCase().replace(/\s+/g, '-'))}
+                                    {API_BASE_URL}/api/webhooks/collect/{encodeURIComponent(selectedPageForGuide.name.toLowerCase().replace(/\s+/g, '-'))}
                                 </div>
                             </div>
 
@@ -246,7 +247,7 @@ document.querySelector('#contactForm').addEventListener('submit', async (e) => {
     const data = Object.fromEntries(formData.entries());
 
     try {
-        const response = await fetch('${window.location.origin}/api/webhooks/collect/${encodeURIComponent(selectedPageForGuide.name.toLowerCase().replace(/\s+/g, '-'))}', {
+        const response = await fetch('${API_BASE_URL}/api/webhooks/collect/${encodeURIComponent(selectedPageForGuide.name.toLowerCase().replace(/\s+/g, '-'))}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
