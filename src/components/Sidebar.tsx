@@ -58,20 +58,6 @@ const Sidebar: React.FC = () => {
                         )}
                     </NavLink>
 
-                    {/* New Data Menu */}
-                    <NavLink
-                        to="/dashboard/data"
-                        className={navLinkClass}
-                        onClick={() => setIsMobileOpen(false)}
-                    >
-                        {({ isActive }) => (
-                            <>
-                                <Database size={20} className={iconClass(isActive)} />
-                                <span className="text-sm font-medium">Data</span>
-                            </>
-                        )}
-                    </NavLink>
-
                     <NavLink
                         to="/dashboard/leads"
                         className={navLinkClass}
@@ -125,19 +111,6 @@ const Sidebar: React.FC = () => {
                     </NavLink>
 
                     <NavLink
-                        to="/dashboard/integration"
-                        className={navLinkClass}
-                        onClick={() => setIsMobileOpen(false)}
-                    >
-                        {({ isActive }) => (
-                            <>
-                                <Blocks size={20} className={iconClass(isActive)} />
-                                <span className="text-sm font-medium">Integration</span>
-                            </>
-                        )}
-                    </NavLink>
-
-                    <NavLink
                         to="/dashboard/reports"
                         className={navLinkClass}
                         onClick={() => setIsMobileOpen(false)}
@@ -146,6 +119,33 @@ const Sidebar: React.FC = () => {
                             <>
                                 <FileText size={20} className={iconClass(isActive)} />
                                 <span className="text-sm font-medium">Reports</span>
+                            </>
+                        )}
+                    </NavLink>
+
+                    {/* Moved Data Menu Here */}
+                    <NavLink
+                        to="/dashboard/data"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <Database size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Data</span>
+                            </>
+                        )}
+                    </NavLink>
+
+                    <NavLink
+                        to="/dashboard/integration"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <Blocks size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Integration</span>
                             </>
                         )}
                     </NavLink>
