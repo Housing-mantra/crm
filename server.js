@@ -13,6 +13,7 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/saryu-
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static('dist')); // Serve static files from Vite build
 
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI)
@@ -87,6 +88,17 @@ app.post('/api/leads', async (req, res) => {
         console.error('Error adding lead:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+});
+
+// 4. Catch-all route to serve React Frontend
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Start Server
