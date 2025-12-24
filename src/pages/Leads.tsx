@@ -5,24 +5,60 @@ import API_BASE_URL from '../config';
 const Leads: React.FC = () => {
     const [leads, setLeads] = React.useState<any[]>([]);
 
-    React.useEffect(() => {
-        const fetchLeads = async () => {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/leads`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setLeads(data);
-                }
-            } catch (error) {
-                console.error('Error fetching leads:', error);
-            }
-        };
+    const [isAddLeadModalOpen, setIsAddLeadModalOpen] = React.useState(false);
+    const [newLead, setNewLead] = React.useState({
+        name: '',
+        phone: '',
+        email: '',
+        budget: '',
+        type: 'Apartment',
+        source: 'Manual Entry'
+    });
 
+    const fetchLeads = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/leads`);
+            if (response.ok) {
+                const data = await response.json();
+                setLeads(data);
+            }
+        } catch (error) {
+            console.error('Error fetching leads:', error);
+        }
+    };
+
+    React.useEffect(() => {
         fetchLeads();
-        // Poll every 30 seconds to update leads
         const interval = setInterval(fetchLeads, 30000);
         return () => clearInterval(interval);
     }, []);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setNewLead(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleAddLead = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/leads`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newLead)
+            });
+
+            if (response.ok) {
+                setIsAddLeadModalOpen(false);
+                setNewLead({ name: '', phone: '', email: '', budget: '', type: 'Apartment', source: 'Manual Entry' });
+                fetchLeads(); // Refresh list
+            } else {
+                alert('Failed to add lead');
+            }
+        } catch (error) {
+            console.error('Error adding lead:', error);
+            alert('Error adding lead');
+        }
+    };
 
     return (
         <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light">
@@ -37,7 +73,9 @@ const Leads: React.FC = () => {
                             <Download size={20} />
                             Export
                         </button>
-                        <button className="flex h-10 items-center justify-center gap-2 px-4 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors">
+                        <button
+                            onClick={() => setIsAddLeadModalOpen(true)}
+                            className="flex h-10 items-center justify-center gap-2 px-4 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors">
                             <Plus size={20} />
                             Add New Lead
                         </button>
@@ -225,6 +263,99 @@ const Leads: React.FC = () => {
 
                 </div>
             </div>
+
+            {/* Add Lead Modal */}
+            {isAddLeadModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in">
+                        <div className="flex justify-between items-center p-6 border-b border-slate-100">
+                            <h3 className="text-lg font-bold text-slate-800">Add New Lead</h3>
+                            <button onClick={() => setIsAddLeadModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                                <Plus size={24} className="rotate-45" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleAddLead} className="p-6 space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Full Name</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={newLead.name}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                    placeholder="Enter lead name"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Phone Number</label>
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    value={newLead.phone}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                    placeholder="Enter phone number"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Budget</label>
+                                <input
+                                    type="text"
+                                    name="budget"
+                                    value={newLead.budget}
+                                    onChange={handleInputChange}
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                    placeholder="e.g. 50L - 1Cr"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Type</label>
+                                    <select
+                                        name="type"
+                                        value={newLead.type}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-white"
+                                    >
+                                        <option value="Apartment">Apartment</option>
+                                        <option value="Villa">Villa</option>
+                                        <option value="Plot">Plot</option>
+                                        <option value="Commercial">Commercial</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Source</label>
+                                    <input
+                                        type="text"
+                                        name="source"
+                                        value={newLead.source}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        placeholder="e.g. Referral"
+                                    />
+                                </div>
+                            </div>
+                            <div className="pt-4 flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsAddLeadModalOpen(false)}
+                                    className="flex-1 py-2.5 rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 py-2.5 rounded-lg bg-primary text-white font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors"
+                                >
+                                    Add Lead
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

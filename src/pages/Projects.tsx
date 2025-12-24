@@ -1,29 +1,63 @@
 import React from 'react';
 import { Search, Bell, Plus, ChevronDown, List, LayoutGrid, MoreVertical } from 'lucide-react';
+import API_BASE_URL from '../config';
 
 const Projects: React.FC = () => {
     const [projects, setProjects] = React.useState<any[]>([]);
+    const [isAddProjectModalOpen, setIsAddProjectModalOpen] = React.useState(false);
+    const [newProject, setNewProject] = React.useState({
+        name: '',
+        location: '',
+        price: '',
+        status: 'For Sale',
+        type: 'Residential',
+        description: ''
+    });
+
+    const fetchProjects = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/projects`);
+            if (response.ok) {
+                const data = await response.json();
+                setProjects(data);
+            }
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+        }
+    };
 
     React.useEffect(() => {
-        const saved = localStorage.getItem('crm_landing_pages');
-        let localProjects = [];
-        try {
-            if (saved) {
-                localProjects = JSON.parse(saved);
-            }
-        } catch (e) {
-            console.error('Error parsing projects', e);
-        }
-
-        // Default to 'The Forestia' if no projects found (Mock/Demo Data)
-        if (localProjects.length === 0) {
-            localProjects = [{ name: 'The Forestia', url: 'http://localhost:5173/The%20Forestia/index.html' }];
-            // Optionally save this back to sync state
-            localStorage.setItem('crm_landing_pages', JSON.stringify(localProjects));
-        }
-
-        setProjects(localProjects);
+        fetchProjects();
     }, []);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setNewProject(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleAddProject = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/projects`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newProject)
+            });
+
+            if (response.ok) {
+                setIsAddProjectModalOpen(false);
+                setNewProject({
+                    name: '', location: '', price: '', status: 'For Sale', type: 'Residential', description: ''
+                });
+                fetchProjects();
+            } else {
+                alert('Failed to add project');
+            }
+        } catch (error) {
+            console.error('Error adding project:', error);
+            alert('Error adding project');
+        }
+    };
     return (
         <div className="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark">
             {/* Top Nav (optional, usually handled by Dashboard layout but adding here if specific to this page view or just to match HTML structure inside main) - 
@@ -55,7 +89,9 @@ const Projects: React.FC = () => {
                             <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Projects</h1>
                             <p className="text-slate-500 dark:text-slate-400 mt-1">Manage your active listings and inventory.</p>
                         </div>
-                        <button className="bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm shadow-blue-200 dark:shadow-none transition-all">
+                        <button
+                            onClick={() => setIsAddProjectModalOpen(true)}
+                            className="bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm shadow-blue-200 dark:shadow-none transition-all">
                             <Plus size={20} />
                             <span>Add New Project</span>
                         </button>
@@ -136,12 +172,12 @@ const Projects: React.FC = () => {
                                     {projects.length === 0 ? (
                                         <tr>
                                             <td colSpan={5} className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                                                No projects found. Integrate a landing page to see it here.
+                                                No projects found. Add your first project!
                                             </td>
                                         </tr>
                                     ) : (
                                         projects.map((project, index) => (
-                                            <tr key={index} className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                            <tr key={project._id || index} className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-4">
                                                         <div className="w-16 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-600 font-bold text-slate-400 text-xs">
@@ -149,22 +185,28 @@ const Projects: React.FC = () => {
                                                         </div>
                                                         <div className="min-w-0">
                                                             <p className="text-slate-900 dark:text-white font-bold text-sm truncate">{project.name}</p>
-                                                            <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate">{project.url}</p>
+                                                            <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5 truncate">{project.location}</p>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-800">
-                                                        <span className="size-1.5 rounded-full bg-green-500"></span>
-                                                        Active
+                                                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${project.status === 'For Sale' ? 'bg-green-50 text-green-600 border-green-100' :
+                                                        project.status === 'Pending' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                                            'bg-red-50 text-red-600 border-red-100'
+                                                        }`}>
+                                                        <span className={`size-1.5 rounded-full ${project.status === 'For Sale' ? 'bg-green-500' :
+                                                            project.status === 'Pending' ? 'bg-amber-500' :
+                                                                'bg-red-500'
+                                                            }`}></span>
+                                                        {project.status}
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <p className="text-slate-900 dark:text-white font-bold text-sm">-</p>
+                                                    <p className="text-slate-900 dark:text-white font-bold text-sm">{project.price}</p>
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-sm">
-                                                        <span className="text-xs">Landing Page Integration</span>
+                                                        <span className="text-xs">{project.type}</span>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 text-right">
@@ -200,6 +242,111 @@ const Projects: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Add Project Modal */}
+            {isAddProjectModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in border border-slate-200 dark:border-slate-700">
+                        <div className="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-700">
+                            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Add New Project</h3>
+                            <button onClick={() => setIsAddProjectModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                                <Plus size={24} className="rotate-45" />
+                            </button>
+                        </div>
+                        <form onSubmit={handleAddProject} className="p-6 space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Project Name</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={newProject.name}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                    placeholder="e.g. Green Valley Residency"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Location</label>
+                                <input
+                                    type="text"
+                                    name="location"
+                                    value={newProject.location}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                    placeholder="e.g. Sector 45, Gurgaon"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Price</label>
+                                    <input
+                                        type="text"
+                                        name="price"
+                                        value={newProject.price}
+                                        onChange={handleInputChange}
+                                        required
+                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        placeholder="e.g. 50L - 1.5Cr"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Status</label>
+                                    <select
+                                        name="status"
+                                        value={newProject.status}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                    >
+                                        <option value="For Sale">For Sale</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Sold">Sold</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Type</label>
+                                <select
+                                    name="type"
+                                    value={newProject.type}
+                                    onChange={handleInputChange}
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                >
+                                    <option value="Residential">Residential</option>
+                                    <option value="Commercial">Commercial</option>
+                                    <option value="Land">Land</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Description</label>
+                                <textarea
+                                    name="description"
+                                    value={newProject.description}
+                                    onChange={handleInputChange}
+                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all h-20"
+                                    placeholder="Brief details about the project..."
+                                />
+                            </div>
+                            <div className="pt-4 flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsAddProjectModalOpen(false)}
+                                    className="flex-1 py-2.5 rounded-lg border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 py-2.5 rounded-lg bg-primary text-white font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors"
+                                >
+                                    Add Project
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

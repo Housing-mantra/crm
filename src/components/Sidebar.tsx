@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Users, Home, Calendar as CalendarIcon, FileText, LogOut, Menu, X, Database, Handshake, Blocks } from 'lucide-react';
+import { LayoutDashboard, Users, Home, Calendar as CalendarIcon, FileText, LogOut, Menu, X, Database, Handshake, Blocks, Settings } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
@@ -149,14 +149,27 @@ const Sidebar: React.FC = () => {
                             </>
                         )}
                     </NavLink>
+
+                    <NavLink
+                        to="/dashboard/settings"
+                        className={navLinkClass}
+                        onClick={() => setIsMobileOpen(false)}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <Settings size={20} className={iconClass(isActive)} />
+                                <span className="text-sm font-medium">Settings</span>
+                            </>
+                        )}
+                    </NavLink>
                 </nav>
 
                 <div className="p-4 border-t border-slate-100">
                     <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition-colors">
                         <div className="h-10 w-10 rounded-full bg-cover bg-center border border-slate-200" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDu_7q6YFd7a1Phk0IWcojbXEOyyypJhnEFuvR0q6K9FBldFRGqUeZkH5yDxPpW-GlkmFQ0kgcOUgMwk3jcqY23Twosnb5eKlMuSxbjWkBdT2Zz4SRvREqHeAOFcVzvY-hTERwdBhr374pP_dmK90iRjEqr4m84gXIydSHwN_Erc4ZYmXf6A_JYlVNWFs4dwmUDpqFWQTJcr-FJ75xHh9HSbFDjTcf1wsYktmvL6dbQ0r-leYKsSO_DS8wH8pMK9in9algqGs9mXqvf')" }}></div>
                         <div className="flex flex-col overflow-hidden">
-                            <p className="text-slate-800 text-sm font-medium truncate">Sarah Jenkins</p>
-                            <p className="text-slate-500 text-xs truncate">Presales Agent</p>
+                            <p className="text-slate-800 text-sm font-medium truncate">Rajnish Kumar</p>
+                            <p className="text-slate-500 text-xs truncate">Super Admin</p>
                         </div>
                     </div>
                     <button

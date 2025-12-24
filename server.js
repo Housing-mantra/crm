@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import Lead from './models/Lead.js';
+import Project from './models/Project.js';
 
 dotenv.config();
 
@@ -90,7 +91,39 @@ app.post('/api/leads', async (req, res) => {
     }
 });
 
-// 4. Catch-all route to serve React Frontend
+// 4. Project APIs
+// GET /api/projects
+app.get('/api/projects', async (req, res) => {
+    try {
+        const projects = await Project.find().sort({ timestamp: -1 });
+        res.json(projects);
+    } catch (error) {
+        console.error('Error fetching projects:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// POST /api/projects
+app.post('/api/projects', async (req, res) => {
+    try {
+        const { name, location, price, type, status, description } = req.body;
+        const newProject = new Project({
+            name,
+            location,
+            price,
+            type,
+            status,
+            description
+        });
+        await newProject.save();
+        res.status(201).json(newProject);
+    } catch (error) {
+        console.error('Error adding project:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// 5. Catch-all route to serve React Frontend
 import path from 'path';
 import { fileURLToPath } from 'url';
 

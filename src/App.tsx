@@ -9,6 +9,7 @@ import ChannelPartner from './pages/ChannelPartner';
 import Data from './pages/Data';
 import Integration from './pages/Integration';
 import Reports from './pages/Reports';
+import Settings from './pages/Settings';
 import Login from './pages/Login';
 
 const MainApp = () => {
@@ -24,6 +25,7 @@ const MainApp = () => {
                 <Route path="data" element={<Data />} />
                 <Route path="integration" element={<Integration />} />
                 <Route path="reports" element={<Reports />} />
+                <Route path="settings" element={<Settings />} />
                 <Route path="*" element={<Navigate to="." replace />} />
             </Routes>
         </div>
