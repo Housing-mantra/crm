@@ -1,19 +1,11 @@
 import React from 'react';
 import { Download, Plus, TrendingUp, Search, ChevronDown, Filter, LayoutTemplate, List, MoreHorizontal, Home, DollarSign, Clock, Phone, Mail } from 'lucide-react';
 import API_BASE_URL from '../config';
+import AddLeadModal from '../components/AddLeadModal';
 
 const Leads: React.FC = () => {
     const [leads, setLeads] = React.useState<any[]>([]);
-
     const [isAddLeadModalOpen, setIsAddLeadModalOpen] = React.useState(false);
-    const [newLead, setNewLead] = React.useState({
-        name: '',
-        phone: '',
-        email: '',
-        budget: '',
-        type: 'Apartment',
-        source: 'Manual Entry'
-    });
 
     const fetchLeads = async () => {
         try {
@@ -33,54 +25,36 @@ const Leads: React.FC = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setNewLead(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleAddLead = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/leads`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newLead)
-            });
-
-            if (response.ok) {
-                setIsAddLeadModalOpen(false);
-                setNewLead({ name: '', phone: '', email: '', budget: '', type: 'Apartment', source: 'Manual Entry' });
-                fetchLeads(); // Refresh list
-            } else {
-                alert('Failed to add lead');
-            }
-        } catch (error) {
-            console.error('Error adding lead:', error);
-            alert('Error adding lead');
-        }
-    };
-
     return (
         <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light">
-            <header className="flex-shrink-0 z-10 bg-white/80 backdrop-blur-sm border-b border-slate-200">
-                <div className="flex flex-wrap items-center justify-between gap-4 p-6 pb-2">
-                    <div className="flex flex-col gap-1">
-                        <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">Presales Pipeline</h2>
-                        <p className="text-slate-500 text-sm">Manage and track your active lead opportunities.</p>
+            <header className="h-16 flex items-center justify-between px-8 bg-white border-b border-slate-200 flex-shrink-0">
+                <h2 className="text-lg font-bold text-slate-900">Presales Pipeline</h2>
+                <div className="flex items-center gap-3">
+                    <div className="relative hidden md:block">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                            <Search size={18} />
+                        </div>
+                        <input
+                            className="pl-9 pr-4 py-1.5 w-64 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-1 focus:ring-primary outline-none"
+                            placeholder="Search leads..."
+                            type="text"
+                        />
                     </div>
-                    <div className="flex items-center gap-3">
-                        <button className="hidden sm:flex h-10 items-center justify-center gap-2 px-4 rounded-lg border border-slate-200 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
-                            <Download size={20} />
-                            Export
-                        </button>
-                        <button
-                            onClick={() => setIsAddLeadModalOpen(true)}
-                            className="flex h-10 items-center justify-center gap-2 px-4 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors">
-                            <Plus size={20} />
-                            Add New Lead
-                        </button>
-                    </div>
+                    <button className="hidden sm:flex h-9 items-center justify-center gap-2 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
+                        <Download size={18} />
+                        Export
+                    </button>
+                    <button className="flex h-9 items-center justify-center gap-2 px-3 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors"
+                        onClick={() => setIsAddLeadModalOpen(true)}>
+                        <Plus size={18} />
+                        Add New Lead
+                    </button>
                 </div>
+            </header>
+
+            {/* Scrollable Content */}
+            <div className="flex flex-col bg-slate-50 border-b border-slate-200">
+                {/* Stats & Filters Section */}
                 <div className="px-6 py-4 grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="flex flex-col gap-1 p-4 rounded-xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                         <p className="text-slate-500 text-xs font-medium uppercase tracking-wider">Total Leads</p>
@@ -119,13 +93,8 @@ const Leads: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
                 <div className="px-6 pb-4 flex flex-wrap items-center gap-3">
-                    <div className="relative flex-1 min-w-[200px] max-w-sm">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                            <Search size={20} />
-                        </div>
-                        <input className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 bg-white text-slate-900 text-sm focus:ring-2 focus:ring-primary focus:border-transparent placeholder-slate-400 outline-none shadow-sm" placeholder="Search by name, phone..." type="text" />
-                    </div>
                     <div className="flex items-center gap-2">
                         <div className="relative">
                             <select className="appearance-none pl-3 pr-10 py-2.5 rounded-lg border border-slate-200 bg-white text-slate-900 text-sm focus:ring-primary focus:border-primary outline-none cursor-pointer min-w-[140px] shadow-sm">
@@ -150,7 +119,7 @@ const Leads: React.FC = () => {
                         </button>
                     </div>
                 </div>
-            </header>
+            </div>
             <div className="flex-1 overflow-x-auto overflow-y-hidden p-6 custom-scrollbar bg-slate-50/50">
                 <div className="flex h-full gap-6 min-w-max">
                     {/* New Leads Column */}
@@ -159,7 +128,7 @@ const Leads: React.FC = () => {
                             <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full bg-blue-500 shadow-sm shadow-blue-200"></div>
                                 <h3 className="text-slate-700 font-bold text-sm">New Leads</h3>
-                                <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-0.5 rounded-full">12</span>
+                                <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-0.5 rounded-full">{leads.length}</span>
                             </div>
                             <button className="text-slate-400 hover:text-slate-600 transition-colors">
                                 <MoreHorizontal size={20} />
@@ -265,97 +234,11 @@ const Leads: React.FC = () => {
             </div>
 
             {/* Add Lead Modal */}
-            {isAddLeadModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in">
-                        <div className="flex justify-between items-center p-6 border-b border-slate-100">
-                            <h3 className="text-lg font-bold text-slate-800">Add New Lead</h3>
-                            <button onClick={() => setIsAddLeadModalOpen(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
-                                <Plus size={24} className="rotate-45" />
-                            </button>
-                        </div>
-                        <form onSubmit={handleAddLead} className="p-6 space-y-4">
-                            <div>
-                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Full Name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={newLead.name}
-                                    onChange={handleInputChange}
-                                    required
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                    placeholder="Enter lead name"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Phone Number</label>
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={newLead.phone}
-                                    onChange={handleInputChange}
-                                    required
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                    placeholder="Enter phone number"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Budget</label>
-                                <input
-                                    type="text"
-                                    name="budget"
-                                    value={newLead.budget}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                    placeholder="e.g. 50L - 1Cr"
-                                />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Type</label>
-                                    <select
-                                        name="type"
-                                        value={newLead.type}
-                                        onChange={handleInputChange}
-                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all bg-white"
-                                    >
-                                        <option value="Apartment">Apartment</option>
-                                        <option value="Villa">Villa</option>
-                                        <option value="Plot">Plot</option>
-                                        <option value="Commercial">Commercial</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Source</label>
-                                    <input
-                                        type="text"
-                                        name="source"
-                                        value={newLead.source}
-                                        onChange={handleInputChange}
-                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                        placeholder="e.g. Referral"
-                                    />
-                                </div>
-                            </div>
-                            <div className="pt-4 flex gap-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsAddLeadModalOpen(false)}
-                                    className="flex-1 py-2.5 rounded-lg border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-colors"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex-1 py-2.5 rounded-lg bg-primary text-white font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors"
-                                >
-                                    Add Lead
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            <AddLeadModal
+                isOpen={isAddLeadModalOpen}
+                onClose={() => setIsAddLeadModalOpen(false)}
+                onSuccess={fetchLeads}
+            />
         </div>
     );
 };

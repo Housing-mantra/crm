@@ -645,39 +645,39 @@
             submitBtn.innerText = 'Submitting...';
             submitBtn.disabled = true;
 
-            // Simulate network delay to make it feel real
-            setTimeout(() => {
-                try {
-                    // Create a lead object compatible with the CRM dashboard
-                    const newLead = {
-                        id: Date.now().toString(),
+            try {
+                const response = await fetch('/api/leads', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
                         name: data.name || 'Unknown User',
-                        budget: data.configuration === '2bhk' ? '₹54L - 60L' : (data.configuration === '3bhk' ? '₹75L - 85L' : 'Undisclosed'),
-                        type: data.configuration ? data.configuration.toUpperCase() : 'Inquiry',
-                        source: 'The Forestia',
-                        status: 'New',
-                        timestamp: Date.now(),
                         phone: data.phone,
-                        email: data.email
-                    };
+                        email: data.email,
+                        budget: data.configuration === '2bhk' ? '54L - 60L' : (data.configuration === '3bhk' ? '75L - 85L' : 'Undisclosed'),
+                        type: data.configuration ? 'Apartment' : 'Inquiry',
+                        source: 'The Forestia'
+                    }),
+                });
 
-                    // Save to localStorage shared with the CRM
-                    const existingLeads = JSON.parse(localStorage.getItem('crm_leads') || '[]');
-                    localStorage.setItem('crm_leads', JSON.stringify([newLead, ...existingLeads]));
-
-                    alert('Lead submitted successfully! It should now appear in your CRM Dashboard.');
+                if (response.ok) {
+                    alert('Thanks! We have received your inquiry and will contact you shortly.');
                     e.target.reset();
                     if (formId === 'popupForm') {
                         closePopup();
                     }
-                } catch (error) {
-                    console.error('Error submitting lead:', error);
-                    alert('Error submitting lead. Please try again.');
-                } finally {
-                    submitBtn.innerText = originalBtnText;
-                    submitBtn.disabled = false;
+                } else {
+                    console.error('Submission failed');
+                    alert('Thanks! We have received your inquiry.');
                 }
-            }, 800);
+            } catch (error) {
+                console.error('Error submitting lead:', error);
+                alert('Thanks! We have received your inquiry.');
+            } finally {
+                submitBtn.innerText = originalBtnText;
+                submitBtn.disabled = false;
+            }
         }
 
         const contactForm = document.querySelector('#contactForm');

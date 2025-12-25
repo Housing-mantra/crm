@@ -1,32 +1,28 @@
 import React from 'react';
-import { Search, Bell, MessageSquare, ChevronLeft, ChevronRight, ChevronDown, Plus } from 'lucide-react';
+import { Search, Bell, ChevronLeft, ChevronRight, ChevronDown, Plus } from 'lucide-react';
 
 const Calendar: React.FC = () => {
     return (
-        <div className="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark">
-            {/* Header */}
-            <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-8 py-3 z-10">
-                <div className="flex items-center gap-4 text-slate-900 dark:text-white">
-                    <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">Schedule</h2>
-                </div>
-                <div className="flex flex-1 justify-end gap-4 items-center">
-                    <label className="flex flex-col min-w-40 !h-10 max-w-64 hidden md:flex">
-                        <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
-                            <div className="text-slate-500 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
-                                <Search size={20} />
-                            </div>
-                            <input className="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search events..." defaultValue="" />
+        <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light dark:bg-background-dark">
+            <header className="h-16 flex items-center justify-between px-8 bg-white/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 dark:bg-slate-900/80 flex-shrink-0">
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white">Calendar</h2>
+
+                <div className="flex items-center gap-3">
+                    <div className="relative hidden md:block">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                            <Search size={18} />
                         </div>
-                    </label>
-                    <div className="flex gap-2">
-                        <button className="flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors relative">
-                            <Bell size={20} />
-                            <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white dark:border-slate-900"></span>
-                        </button>
-                        <button className="flex items-center justify-center rounded-lg size-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                            <MessageSquare size={20} />
-                        </button>
+                        <input
+                            className="pl-9 pr-4 py-1.5 w-64 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-1 focus:ring-primary outline-none dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                            placeholder="Search events..."
+                            type="text"
+                        />
                     </div>
+
+                    <button className="hidden sm:flex h-9 items-center justify-center gap-2 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700">
+                        <Bell size={18} />
+                        <span className="hidden lg:inline">Alerts</span>
+                    </button>
                 </div>
             </header>
             {/* Main Workspace */}

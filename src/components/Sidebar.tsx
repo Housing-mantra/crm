@@ -35,7 +35,7 @@ const Sidebar: React.FC = () => {
                 />
             )}
 
-            <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 md:relative md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 md:relative md:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} h-full`}>
                 <div className="p-6 flex items-center gap-3">
                     <div className="h-8 w-8 rounded bg-primary flex items-center justify-center text-white shadow-md shadow-blue-200">
                         <Home size={20} />

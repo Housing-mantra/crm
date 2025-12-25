@@ -1,23 +1,51 @@
 import React from 'react';
-import { Download, Plus, TrendingUp, TrendingDown, Hourglass, CheckCircle, Search, Clock, History, AlertTriangle, UserPlus, PieChart } from 'lucide-react';
+import { Download, Plus, TrendingUp, TrendingDown, Hourglass, CheckCircle, Search, Clock, History, AlertTriangle, UserPlus, PieChart as PieChartIcon } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, Legend } from 'recharts';
 import API_BASE_URL from '../config';
+import AddLeadModal from '../components/AddLeadModal';
+import SalesFunnel from '../components/SalesFunnel';
 
 const Dashboard: React.FC = () => {
     const [leads, setLeads] = React.useState<any[]>([]);
+    const [isAddLeadModalOpen, setIsAddLeadModalOpen] = React.useState(false);
 
-    React.useEffect(() => {
-        const fetchLeads = async () => {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/leads`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setLeads(data);
-                }
-            } catch (error) {
-                console.error('Error fetching leads:', error);
+    const fetchLeads = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/leads`);
+            if (response.ok) {
+                const data = await response.json();
+                setLeads(data);
             }
+        } catch (error) {
+            console.error('Error fetching leads:', error);
+        }
+    };
+
+    const leadSourceData = React.useMemo(() => {
+        const sources: { [key: string]: number } = {
+            'Landing Page': 0,
+            'Facebook': 0,
+            'Manual': 0,
+            'Others': 0
         };
 
+        leads.forEach((lead: any) => {
+            const source = (lead.source || 'Others').toLowerCase();
+            if (source.includes('landing')) sources['Landing Page']++;
+            else if (source.includes('facebook') || source.includes('fb')) sources['Facebook']++;
+            else if (source.includes('manual')) sources['Manual']++;
+            else sources['Others']++;
+        });
+
+        return Object.keys(sources).map(key => ({
+            name: key,
+            value: sources[key]
+        })).filter(item => item.value > 0);
+    }, [leads]);
+
+    const PIE_COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#64748B'];
+
+    React.useEffect(() => {
         fetchLeads();
         // Poll every 30 seconds to update leads
         const interval = setInterval(fetchLeads, 30000);
@@ -26,22 +54,18 @@ const Dashboard: React.FC = () => {
 
     return (
         <main className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light">
-            <header className="flex-shrink-0 z-10 bg-white border-b border-slate-200">
-                <div className="flex flex-wrap items-center justify-between gap-4 p-6">
-                    <div className="flex flex-col gap-1">
-                        <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">Dashboard</h2>
-                        <p className="text-slate-500 text-sm">Overview of your real estate operations and daily tasks.</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <button className="hidden sm:flex h-10 items-center justify-center gap-2 px-4 rounded-lg border border-slate-200 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
-                            <Download size={20} />
-                            Export Report
-                        </button>
-                        <button className="flex h-10 items-center justify-center gap-2 px-4 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors">
-                            <Plus size={20} />
-                            Add New Lead
-                        </button>
-                    </div>
+            <header className="h-16 flex items-center justify-between px-8 bg-white border-b border-slate-200 flex-shrink-0">
+                <h2 className="text-lg font-bold text-slate-900">Dashboard</h2>
+                <div className="flex items-center gap-3">
+                    <button className="hidden sm:flex h-9 items-center justify-center gap-2 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm">
+                        <Download size={18} />
+                        Export Report
+                    </button>
+                    <button className="flex h-9 items-center justify-center gap-2 px-3 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors"
+                        onClick={() => setIsAddLeadModalOpen(true)}>
+                        <Plus size={18} />
+                        Add New Lead
+                    </button>
                 </div>
             </header>
             <div className="flex-1 overflow-y-auto p-6 custom-scrollbar space-y-6">
@@ -130,18 +154,43 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-slate-800 text-base font-bold flex items-center gap-2">
-                            <PieChart className="text-slate-400" size={24} />
+                            <PieChartIcon className="text-slate-400" size={24} />
                             Lead Sources
                         </h3>
-                        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center h-full">
-                            <div className="flex items-center justify-center h-full text-slate-400 text-sm">
-                                No data available
-                            </div>
+                        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center h-[300px]">
+                            {leadSourceData.length > 0 ? (
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie
+                                            data={leadSourceData}
+                                            cx="50%"
+                                            cy="50%"
+                                            innerRadius={60}
+                                            outerRadius={80}
+                                            fill="#8884d8"
+                                            paddingAngle={5}
+                                            dataKey="value"
+                                        >
+                                            {leadSourceData.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                                            ))}
+                                        </Pie>
+                                        <RechartsTooltip />
+                                        <Legend verticalAlign="bottom" height={36} />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center h-full text-slate-400 text-sm gap-2">
+                                    <PieChartIcon size={32} className="opacity-20" />
+                                    <p>No lead source data</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2 flex flex-col gap-4">
+                        <SalesFunnel />
                         <div className="flex items-center justify-between">
                             <h3 className="text-slate-800 text-base font-bold flex items-center gap-2">
                                 <CheckCircle className="text-slate-400" size={24} />
@@ -195,6 +244,12 @@ const Dashboard: React.FC = () => {
                     </div>
                 </div>
             </div>
+            {/* Add Lead Modal */}
+            <AddLeadModal
+                isOpen={isAddLeadModalOpen}
+                onClose={() => setIsAddLeadModalOpen(false)}
+                onSuccess={fetchLeads}
+            />
         </main>
     );
 };

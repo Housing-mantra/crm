@@ -1,18 +1,11 @@
 import React from 'react';
 import { Search, Bell, Plus, ChevronDown, List, LayoutGrid, MoreVertical } from 'lucide-react';
 import API_BASE_URL from '../config';
+import AddProjectModal from '../components/AddProjectModal';
 
 const Projects: React.FC = () => {
     const [projects, setProjects] = React.useState<any[]>([]);
     const [isAddProjectModalOpen, setIsAddProjectModalOpen] = React.useState(false);
-    const [newProject, setNewProject] = React.useState({
-        name: '',
-        location: '',
-        price: '',
-        status: 'For Sale',
-        type: 'Residential',
-        description: ''
-    });
 
     const fetchProjects = async () => {
         try {
@@ -29,35 +22,6 @@ const Projects: React.FC = () => {
     React.useEffect(() => {
         fetchProjects();
     }, []);
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setNewProject(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleAddProject = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/projects`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newProject)
-            });
-
-            if (response.ok) {
-                setIsAddProjectModalOpen(false);
-                setNewProject({
-                    name: '', location: '', price: '', status: 'For Sale', type: 'Residential', description: ''
-                });
-                fetchProjects();
-            } else {
-                alert('Failed to add project');
-            }
-        } catch (error) {
-            console.error('Error adding project:', error);
-            alert('Error adding project');
-        }
-    };
     return (
         <div className="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark">
             {/* Top Nav (optional, usually handled by Dashboard layout but adding here if specific to this page view or just to match HTML structure inside main) - 
@@ -67,12 +31,12 @@ const Projects: React.FC = () => {
             <header className="h-16 flex items-center justify-between px-8 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
                 <h2 className="text-lg font-bold text-slate-900 dark:text-white hidden md:block">Project Management</h2>
                 <div className="flex items-center gap-4 ml-auto">
-                    <div className="relative hidden sm:block">
-                        <input className="pl-10 pr-4 py-2 w-64 bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-1 focus:ring-primary text-slate-900 dark:text-white" placeholder="Global Search..." type="text" />
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                            <Search size={20} />
-                        </div>
-                    </div>
+                    <button
+                        onClick={() => setIsAddProjectModalOpen(true)}
+                        className="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm shadow-blue-200 dark:shadow-none transition-all">
+                        <Plus size={18} />
+                        <span>Add New Project</span>
+                    </button>
                     <button className="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-300 relative transition-colors">
                         <Bell size={20} />
                         <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white dark:border-slate-900"></span>
@@ -83,19 +47,7 @@ const Projects: React.FC = () => {
             {/* Scrollable Page Content */}
             <div className="flex-1 overflow-y-auto p-4 md:p-8 scroll-smooth">
                 <div className="max-w-[1400px] mx-auto flex flex-col gap-6">
-                    {/* Page Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                            <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Projects</h1>
-                            <p className="text-slate-500 dark:text-slate-400 mt-1">Manage your active listings and inventory.</p>
-                        </div>
-                        <button
-                            onClick={() => setIsAddProjectModalOpen(true)}
-                            className="bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm shadow-blue-200 dark:shadow-none transition-all">
-                            <Plus size={20} />
-                            <span>Add New Project</span>
-                        </button>
-                    </div>
+
 
                     {/* Filters Bar */}
                     <div className="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
@@ -244,109 +196,11 @@ const Projects: React.FC = () => {
             </div>
 
             {/* Add Project Modal */}
-            {isAddProjectModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in border border-slate-200 dark:border-slate-700">
-                        <div className="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-700">
-                            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Add New Project</h3>
-                            <button onClick={() => setIsAddProjectModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
-                                <Plus size={24} className="rotate-45" />
-                            </button>
-                        </div>
-                        <form onSubmit={handleAddProject} className="p-6 space-y-4">
-                            <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Project Name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={newProject.name}
-                                    onChange={handleInputChange}
-                                    required
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                    placeholder="e.g. Green Valley Residency"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Location</label>
-                                <input
-                                    type="text"
-                                    name="location"
-                                    value={newProject.location}
-                                    onChange={handleInputChange}
-                                    required
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                    placeholder="e.g. Sector 45, Gurgaon"
-                                />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Price</label>
-                                    <input
-                                        type="text"
-                                        name="price"
-                                        value={newProject.price}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                        placeholder="e.g. 50L - 1.5Cr"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Status</label>
-                                    <select
-                                        name="status"
-                                        value={newProject.status}
-                                        onChange={handleInputChange}
-                                        className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                    >
-                                        <option value="For Sale">For Sale</option>
-                                        <option value="Pending">Pending</option>
-                                        <option value="Sold">Sold</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Type</label>
-                                <select
-                                    name="type"
-                                    value={newProject.type}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                >
-                                    <option value="Residential">Residential</option>
-                                    <option value="Commercial">Commercial</option>
-                                    <option value="Land">Land</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Description</label>
-                                <textarea
-                                    name="description"
-                                    value={newProject.description}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all h-20"
-                                    placeholder="Brief details about the project..."
-                                />
-                            </div>
-                            <div className="pt-4 flex gap-3">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsAddProjectModalOpen(false)}
-                                    className="flex-1 py-2.5 rounded-lg border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex-1 py-2.5 rounded-lg bg-primary text-white font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-600 transition-colors"
-                                >
-                                    Add Project
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            <AddProjectModal
+                isOpen={isAddProjectModalOpen}
+                onClose={() => setIsAddProjectModalOpen(false)}
+                onSuccess={fetchProjects}
+            />
         </div>
     );
 };

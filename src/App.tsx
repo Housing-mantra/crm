@@ -14,20 +14,24 @@ import Login from './pages/Login';
 
 const MainApp = () => {
     return (
-        <div className="flex min-h-screen w-full bg-background-light">
+        <div className="flex h-screen w-full bg-background-light overflow-hidden">
             <Sidebar />
-            <Routes>
-                <Route index element={<Dashboard />} />
-                <Route path="leads" element={<Leads />} />
-                <Route path="calendar" element={<Calendar />} />
-                <Route path="projects" element={<Projects />} />
-                <Route path="channel-partner" element={<ChannelPartner />} />
-                <Route path="data" element={<Data />} />
-                <Route path="integration" element={<Integration />} />
-                <Route path="reports" element={<Reports />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="*" element={<Navigate to="." replace />} />
-            </Routes>
+            <div className="flex-1 flex flex-col h-full overflow-hidden">
+                <div className="flex-1 overflow-auto">
+                    <Routes>
+                        <Route index element={<Dashboard />} />
+                        <Route path="leads" element={<Leads />} />
+                        <Route path="calendar" element={<Calendar />} />
+                        <Route path="projects" element={<Projects />} />
+                        <Route path="channel-partner" element={<ChannelPartner />} />
+                        <Route path="data" element={<Data />} />
+                        <Route path="integration" element={<Integration />} />
+                        <Route path="reports" element={<Reports />} />
+                        <Route path="settings" element={<Settings />} />
+                        <Route path="*" element={<Navigate to="." replace />} />
+                    </Routes>
+                </div>
+            </div>
         </div>
     );
 };
