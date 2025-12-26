@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import Lead from './models/Lead.js';
 import Project from './models/Project.js';
+import ChannelPartner from './models/ChannelPartner.js';
 
 dotenv.config();
 
@@ -119,6 +120,30 @@ app.post('/api/projects', async (req, res) => {
         res.status(201).json(newProject);
     } catch (error) {
         console.error('Error adding project:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// 6. Channel Partner APIs
+// GET /api/channel-partners
+app.get('/api/channel-partners', async (req, res) => {
+    try {
+        const partners = await ChannelPartner.find().sort({ timestamp: -1 });
+        res.json(partners);
+    } catch (error) {
+        console.error('Error fetching channel partners:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// POST /api/channel-partners
+app.post('/api/channel-partners', async (req, res) => {
+    try {
+        const newPartner = new ChannelPartner(req.body);
+        await newPartner.save();
+        res.status(201).json(newPartner);
+    } catch (error) {
+        console.error('Error adding channel partner:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });

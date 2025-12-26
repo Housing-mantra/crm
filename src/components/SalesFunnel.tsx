@@ -73,35 +73,26 @@ const SalesFunnel = () => {
                                     fill={section.color}
                                     filter="url(#dropShadow)"
                                 />
-                                {/* Label Line and Text */}
-                                <line
-                                    x1={TRAITS.topWidth}
-                                    y1={index * (sectionHeight + TRAITS.gap) + sectionHeight / 2}
-                                    x2={TRAITS.topWidth + 20}
-                                    y2={index * (sectionHeight + TRAITS.gap) + sectionHeight / 2}
-                                    stroke="#94a3b8"
-                                    strokeWidth="1"
-                                    strokeDasharray="4 2"
-                                />
-                                <text
-                                    x={TRAITS.topWidth + 30}
-                                    y={index * (sectionHeight + TRAITS.gap) + sectionHeight / 2}
-                                    dy="0.35em"
-                                    className="text-xs font-bold fill-slate-600 uppercase tracking-wide"
-                                    style={{ fontSize: '11px', fontWeight: 'bold' }}
-                                >
-                                    {section.label}
-                                </text>
-                                {/* Percentage/Count Text inside funnel (optional placeholder) */}
+                                {/* Label Text (Inside) */}
                                 <text
                                     x={TRAITS.topWidth / 2}
-                                    y={index * (sectionHeight + TRAITS.gap) + sectionHeight / 2}
+                                    y={index * (sectionHeight + TRAITS.gap) + sectionHeight / 2 - 8}
                                     dy="0.35em"
                                     textAnchor="middle"
                                     fill="white"
-                                    style={{ fontSize: '12px', fontWeight: 'bold' }}
+                                    style={{ fontSize: '13px', fontWeight: 'bold' }}
                                 >
-                                    {/* Placeholder values */}
+                                    {section.label}
+                                </text>
+                                {/* Percentage Text (Inside - Below Label) */}
+                                <text
+                                    x={TRAITS.topWidth / 2}
+                                    y={index * (sectionHeight + TRAITS.gap) + sectionHeight / 2 + 8}
+                                    dy="0.35em"
+                                    textAnchor="middle"
+                                    fill="rgba(255,255,255,0.8)"
+                                    style={{ fontSize: '11px', fontWeight: 'normal' }}
+                                >
                                     {index === 0 ? '100%' : index === 1 ? '75%' : index === 2 ? '50%' : '25%'}
                                 </text>
                             </g>

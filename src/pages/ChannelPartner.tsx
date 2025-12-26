@@ -1,26 +1,62 @@
-import React, { useState } from 'react';
-import { Users, Search, Phone, Mail, MapPin, MoreHorizontal, Plus, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Users, Search, Phone, Mail, MapPin, MoreHorizontal, Plus } from 'lucide-react';
 import AddChannelPartnerModal from '../components/AddChannelPartnerModal';
 
 const ChannelPartner: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [partners, setPartners] = useState<any[]>([]);
 
-    // Dummy Data State
-    const [partners, setPartners] = useState([
-        { id: 1, name: 'Rahul Sharma', company: 'Sharma Estates', phone: '+91 98765 43210', email: 'rahul@sharmaestates.com', location: 'Mumbai', status: 'Active', leads: 12 },
-        { id: 2, name: 'Priya Verma', company: 'Prime Realty', phone: '+91 98989 89898', email: 'priya@primerealty.in', location: 'Bangalore', status: 'Active', leads: 8 },
-        { id: 3, name: 'Amit Kumar', company: 'Dream Homes', phone: '+91 91234 56789', email: 'amit@dreamhomes.co', location: 'Delhi', status: 'Inactive', leads: 3 },
-    ]);
+    useEffect(() => {
+        fetchPartners();
+    }, []);
+
+    const fetchPartners = async () => {
+        try {
+            const response = await fetch('/api/channel-partners');
+            if (response.ok) {
+                const data = await response.json();
+                setPartners(data);
+            } else {
+                console.error('Failed to fetch partners');
+            }
+        } catch (error) {
+            console.error('Error fetching partners:', error);
+        }
+    };
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
     };
 
-    const filteredPartners = partners.filter(p =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.company.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredPartners = partners.filter(p => {
+        const name = p.contactPerson || p.cpFirmName || '';
+        const company = p.cpFirmName || '';
+        return name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            company.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
+    const handleAddPartner = async (data: any) => {
+        try {
+            const response = await fetch('/api/channel-partners', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                const newPartner = await response.json();
+                setPartners([newPartner, ...partners]);
+                setIsAddModalOpen(false);
+            } else {
+                console.error('Failed to add partner');
+            }
+        } catch (error) {
+            console.error('Error adding partner:', error);
+        }
+    };
 
     return (
         <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light">
@@ -53,16 +89,16 @@ const ChannelPartner: React.FC = () => {
                 {filteredPartners.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {filteredPartners.map((partner) => (
-                            <div key={partner.id} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all group">
+                            <div key={partner._id} className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all group">
                                 <div className="p-5">
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="flex gap-3">
                                             <div className="h-10 w-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">
-                                                {partner.name.charAt(0)}
+                                                {(partner.contactPerson || partner.cpFirmName || '?').charAt(0)}
                                             </div>
                                             <div>
-                                                <h3 className="font-bold text-slate-800 text-sm">{partner.name}</h3>
-                                                <p className="text-xs text-slate-500 font-medium">{partner.company}</p>
+                                                <h3 className="font-bold text-slate-800 text-sm">{partner.contactPerson || partner.cpFirmName}</h3>
+                                                <p className="text-xs text-slate-500 font-medium">{partner.cpFirmName}</p>
                                             </div>
                                         </div>
                                         <div className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${partner.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-100 text-slate-500 border-slate-200'}`}>
@@ -73,11 +109,11 @@ const ChannelPartner: React.FC = () => {
                                     <div className="space-y-2 mb-4">
                                         <div className="flex items-center gap-2 text-xs text-slate-600">
                                             <Phone size={14} className="text-slate-400" />
-                                            {partner.phone}
+                                            {partner.contact}
                                         </div>
                                         <div className="flex items-center gap-2 text-xs text-slate-600">
                                             <Mail size={14} className="text-slate-400" />
-                                            <span className="truncate">{partner.email}</span>
+                                            <span className="truncate">{partner.cpEmail}</span>
                                         </div>
                                         <div className="flex items-center gap-2 text-xs text-slate-600">
                                             <MapPin size={14} className="text-slate-400" />
@@ -88,7 +124,7 @@ const ChannelPartner: React.FC = () => {
                                     <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                                         <div className="text-center">
                                             <p className="text-[10px] text-slate-400 uppercase font-bold">Leads</p>
-                                            <p className="text-sm font-bold text-slate-800">{partner.leads}</p>
+                                            <p className="text-sm font-bold text-slate-800">{partner.leads || 0}</p>
                                         </div>
                                         <button className="text-slate-400 hover:text-slate-600 p-1 rounded hover:bg-slate-50">
                                             <MoreHorizontal size={18} />
@@ -107,24 +143,10 @@ const ChannelPartner: React.FC = () => {
             </div>
 
             {/* Add Partner Modal */}
-            {/* Add Partner Modal */}
             <AddChannelPartnerModal
                 isOpen={isAddModalOpen}
                 onClose={() => setIsAddModalOpen(false)}
-                onSuccess={(data) => {
-                    const newPartnerEntry = {
-                        id: partners.length + 1,
-                        name: data.contactPerson || data.cpFirmName,
-                        company: data.cpFirmName,
-                        phone: data.contact,
-                        email: data.cpEmail,
-                        location: data.location || 'Unknown',
-                        status: data.status,
-                        leads: 0 // Default
-                    };
-                    setPartners([newPartnerEntry, ...partners]);
-                    setIsAddModalOpen(false);
-                }}
+                onSuccess={handleAddPartner}
             />
         </div>
     );
