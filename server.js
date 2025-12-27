@@ -144,7 +144,7 @@ app.post('/api/channel-partners', async (req, res) => {
         res.status(201).json(newPartner);
     } catch (error) {
         console.error('Error adding channel partner:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: error.message });
     }
 });
 

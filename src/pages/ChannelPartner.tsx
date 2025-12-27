@@ -51,10 +51,13 @@ const ChannelPartner: React.FC = () => {
                 setPartners([newPartner, ...partners]);
                 setIsAddModalOpen(false);
             } else {
-                console.error('Failed to add partner');
+                const errorData = await response.json();
+                console.error('Failed to add partner:', errorData);
+                alert(`Failed to add partner: ${errorData.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Error adding partner:', error);
+            alert('Something went wrong while adding the partner.');
         }
     };
 
