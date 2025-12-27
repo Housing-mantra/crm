@@ -44,15 +44,25 @@ const AddChannelPartnerModal: React.FC<AddChannelPartnerModalProps> = ({ isOpen,
     }, [wrapperRef]);
 
 
+    const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
 
-        if (name === 'address' && value.length > 2) {
-            handleAddressSearch(value);
-        } else if (name === 'address') {
-            setAddressSuggestions([]);
-            setShowSuggestions(false);
+        if (name === 'address') {
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current);
+            }
+
+            if (value.length > 2) {
+                searchTimeoutRef.current = setTimeout(() => {
+                    handleAddressSearch(value);
+                }, 500);
+            } else {
+                setAddressSuggestions([]);
+                setShowSuggestions(false);
+            }
         }
     };
 
