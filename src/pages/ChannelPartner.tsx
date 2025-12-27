@@ -46,18 +46,27 @@ const ChannelPartner: React.FC = () => {
                 body: JSON.stringify(data),
             });
 
+            const responseText = await response.text();
+            let responseData;
+            try {
+                responseData = JSON.parse(responseText);
+            } catch (e) {
+                // Response was not JSON (likely HTML error from Nginx/Apache)
+                console.error('Server returned non-JSON response:', responseText);
+                alert(`Server Error (${response.status}): The server returned an unexpected response. Check console for details.`);
+                return;
+            }
+
             if (response.ok) {
-                const newPartner = await response.json();
-                setPartners([newPartner, ...partners]);
+                setPartners([responseData, ...partners]);
                 setIsAddModalOpen(false);
             } else {
-                const errorData = await response.json();
-                console.error('Failed to add partner:', errorData);
-                alert(`Failed to add partner: ${errorData.error || 'Unknown error'}`);
+                console.error('Failed to add partner:', responseData);
+                alert(`Failed to add partner: ${responseData.error || 'Unknown error'}`);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error adding partner:', error);
-            alert('Something went wrong while adding the partner.');
+            alert(`Network or Code Error: ${error.message}`);
         }
     };
 
