@@ -19,7 +19,26 @@ else
     echo "✅ Dependencies already installed."
 fi
 
-# Start the server
-echo "Starting Development Server..."
+# Function to kill backend on exit
+cleanup() {
+    echo "🛑 Stopping servers..."
+    kill $BACKEND_PID
+    exit
+}
+
+# Trap SIGINT (Ctrl+C)
+trap cleanup SIGINT
+
+# Start the Backend Server
+echo "Starting Backend Server..."
+PORT=5001 node server.js &
+BACKEND_PID=$!
+echo "Backend running on PID $BACKEND_PID"
+
+# Wait a moment for backend to initialize
+sleep 2
+
+# Start the Frontend Server
+echo "Starting Frontend Development Server..."
 echo "Open your browser to the URL shown below (usually http://localhost:5173)"
 npm run dev

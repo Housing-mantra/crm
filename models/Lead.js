@@ -25,6 +25,10 @@ const leadSchema = new mongoose.Schema({
         type: String, // URL or campaign name
         required: true
     },
+    project: {
+        type: String,
+        required: false
+    },
     status: {
         type: String,
         enum: ['New', 'Contacted', 'Qualified', 'Lost', 'Won'],

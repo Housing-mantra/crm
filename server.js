@@ -9,7 +9,7 @@ import ChannelPartner from './models/ChannelPartner.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/saryu-crm';
 
 // Middleware
@@ -44,6 +44,7 @@ app.post('/api/webhooks/collect/:sourceName', async (req, res) => {
             type: type || (req.body.configuration ? req.body.configuration : 'Unknown'), // Handle different field names
             country_code,
             source: source || sourceName, // Use provided source URL or param
+            project: req.body.project || 'Unknown',
             status: 'New'
         });
 
