@@ -21,7 +21,6 @@ const Integration: React.FC = () => {
             }
         }
         return [
-            { name: 'The Forestia', url: 'http://localhost:5173/The%20Forestia/index.html' },
             { name: 'Prism City', url: 'https://prismcityblue.com/' }
         ];
     });

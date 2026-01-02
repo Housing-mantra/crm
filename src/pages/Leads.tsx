@@ -143,9 +143,14 @@ const Leads: React.FC = () => {
                                                 <div className="h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold ring-2 ring-white shadow-sm">
                                                     {lead.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2)}
                                                 </div>
-                                                <div>
+                                                <div className="flex flex-col gap-0.5">
                                                     <p className="text-slate-900 font-semibold text-sm">{lead.name}</p>
-                                                    <p className="text-slate-500 text-xs">{lead.source}</p>
+                                                    <div className="flex items-center gap-1">
+                                                        {lead.project && lead.project !== 'Unknown' && (
+                                                            <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-1 rounded border border-blue-100">{lead.project}</span>
+                                                        )}
+                                                        <p className="text-slate-500 text-xs">{lead.source}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <span className="bg-blue-50 text-blue-600 border border-blue-100 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide">New</span>
